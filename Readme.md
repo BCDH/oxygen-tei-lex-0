@@ -42,7 +42,11 @@ Distributed version of the framework, `teilex0-oxygen-framework.zip` file, is st
 
 ## Installation
 
-The framework can be installed uploading both files from the `web` directory (`oxygen-addons.xml` and `teilex0-oxygen-framework.zip`) to the web server and install the framework from the internet.
+The framework is published via GitHub Pages and can be installed from the internet using the add-on metadata URL:
+
+`https://oxygen.tei-lex-0.org/oxygen-addons.xml`
+
+The `teilex0-oxygen-framework.zip` package and the versioned zip files are published from the same site root and are resolved automatically from `oxygen-addons.xml`.
 
 The installation process of the framework is described in the [documentation](https://www.oxygenxml.com/doc/versions/25.1/ug-editor/topics/installing-and-updating-add-ons.html) of the oXygen XML editor.
 
