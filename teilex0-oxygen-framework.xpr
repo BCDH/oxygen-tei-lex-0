@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project>
-    <meta>
-        <filters directoryPatterns="" filePatterns="\Qteilex0-oxygen-framework.xpr\E" positiveFilePatterns="" showHiddenFiles="false"/>
-    </meta>
-    <projectTree name="teilex0-oxygen-framework.xpr">
-        <folder path="."/>
-    </projectTree>
-</project>

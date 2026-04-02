@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <meta>
+        <filters directoryPatterns="" filePatterns="\Qoxygen-tei-lex-0.xpr\E" positiveFilePatterns="" showHiddenFiles="false"/>
+    </meta>
+    <projectTree name="oxygen-tei-lex-0.xpr">
+        <folder path="."/>
+    </projectTree>
+</project>
