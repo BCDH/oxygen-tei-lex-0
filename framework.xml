@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<framework>
+ <id>oxygen-tei-lex-0</id>
+ <name>TEI Lex-0 Tools</name>
+ <version>2.0.0</version>
+ <schema base-url="https://github.com/BCDH/tei-lex-0" tags-path="releases/tag">
+  <version>0.0.6</version>
+ </schema>
+</framework>
