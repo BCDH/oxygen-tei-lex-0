@@ -7,7 +7,7 @@
 					<field name="extensionPatch">
 						<null/>
 					</field>
-					<field name="name"><String>TEI Lex-0 Tools</String></field>
+					<field name="name"><String>TEI Lex-0</String></field>
 					<field name="schemaDescriptor"><docTypeSchema><field name="type"><Integer>4</Integer></field><field name="uri"><String>${framework}/schemas/0.9.5/lex-0.rng</String></field></docTypeSchema></field>
 					<field name="classpath">
 						<String-array><String>${framework}/resources</String><String>${framework}/i18n</String></String-array>

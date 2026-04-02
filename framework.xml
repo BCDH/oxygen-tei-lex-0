@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <framework>
  <id>oxygen-tei-lex-0</id>
- <name>TEI Lex-0 Tools</name>
+ <name>TEI Lex-0 Framework</name>
+ <!-- major version is changed with new schema name, addon ID, or URLs -->
+ <!-- minor version is changed with new schema version -->
+ <!-- patch version is changed with new features of the framework -->
  <version>2.0.0</version>
  <schema base-url="https://github.com/BCDH/tei-lex-0" tags-path="releases/tag">
-  <version>0.0.6</version>
+  <version>0.9.5</version>
  </schema>
 </framework>

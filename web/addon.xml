@@ -8,15 +8,15 @@
         <xt:oxy_version>17.0+</xt:oxy_version>
         <xt:type>framework</xt:type>
         <xt:author>Boris Lehečka</xt:author>
-        <xt:name>TEI Lex-0 Tools</xt:name>
+        <xt:name>TEI Lex-0 Framework</xt:name>
         <xt:description xmlns="http://www.w3.org/1999/xhtml">
          <html>
           <head>
-           <title>TEI Lex-0 Tools</title>
+           <title>TEI Lex-0 Framework</title>
           </head>
           <body>
-           <h3>TEI Lex-0 Tools, version <span id="addon-version">2.0.0</span></h3>
-         <p>Tools for eiditing, transforming and analyzing dictionaries in <a href="https://lex-0.org">TEI Lex-0</a> format in oXygen XML Editor.</p>
+           <h3>TEI Lex-0 Framework, version <span id="addon-version">2.0.0</span></h3>
+         <p>Framework for eiditing, transforming and analyzing dictionaries in <a href="https://lex-0.org">TEI Lex-0</a> format in oXygen XML Editor.</p>
          <p>Supported versions of TEI Lex-0:</p>
          <ul id="versions">
           <li><a href="https://github.com/BCDH/tei-lex-0/releases/tag/v0.9.5">0.9.5</a></li>
@@ -39,7 +39,7 @@
          </ul>
          <h3 id="history">History</h3>
            <h4>2.0.0</h4>
-           <p>This version of <strong>TEI Lex-0 Tools</strong> replaces previous versions available in the <a href="https://github.com/DARIAH-ERIC">DARIAH-ERIC</a> repository. Internal identifier of this framework has also changed (from <code>teilex0-oxygen-framework</code> to <code>oxygen-tei-le-0</code>), ie. old installations should be uninstalled manualy.</p>
+           <p>This version of <strong>TEI Lex-0 Framework</strong> replaces previous versions available in the <a href="https://github.com/DARIAH-ERIC">DARIAH-ERIC</a> repository. Internal identifier of this framework has also changed (from <code>teilex0-oxygen-framework</code> to <code>oxygen-tei-le-0</code>), ie. old installations should be uninstalled manualy.</p>
            <p>Support for following schemas was added:</p>
            <ul>
             <li><a href="https://github.com/BCDH/tei-lex-0/releases/tag/v0.9.5">0.9.5</a></li>
