@@ -7,8 +7,8 @@
 					<field name="extensionPatch">
 						<null/>
 					</field>
-					<field name="name"><String>TEI Lex-0</String></field>
-					<field name="schemaDescriptor"><docTypeSchema><field name="type"><Integer>4</Integer></field><field name="uri"><String>${framework}/schemas/0.9.2/TEILex0.rng</String></field></docTypeSchema></field>
+					<field name="name"><String>TEI Lex-0 Tools</String></field>
+					<field name="schemaDescriptor"><docTypeSchema><field name="type"><Integer>4</Integer></field><field name="uri"><String>${framework}/schemas/0.9.5/lex-0.rng</String></field></docTypeSchema></field>
 					<field name="classpath">
 						<String-array><String>${framework}/resources</String><String>${framework}/i18n</String></String-array>
 					</field>
@@ -708,7 +708,7 @@
 											<Integer>6</Integer>
 										</field>
 										<field name="uri">
-											<String>${framework}/schemas/0.9.0/TEILex0.rng</String>
+											<String>${framework}/schemas/0.9.5/lex-0.rng</String>
 										</field>
 									</validationUnitSchema>
 								</field>
@@ -722,7 +722,181 @@
 						<String>Validation_scenario</String>
 					</field>
 					<field name="name">
-						<String>TEI Lex-0 v0.9.0</String>
+						<String>TEI Lex-0 v0.9.5</String>
+					</field>
+				</validationScenario><validationScenario>
+					<field name="pairs">
+						<list>
+							<validationUnit>
+								<field name="validationType">
+									<validationUnitType>
+										<field name="validationInputType">
+											<String>text/xml</String>
+										</field>
+									</validationUnitType>
+								</field>
+								<field name="url">
+									<String>${currentFileURL}</String>
+								</field>
+								<field name="validationEngine">
+									<validationEngine>
+										<field name="engineType">
+											<String>&lt;Default engine&gt;</String>
+										</field>
+										<field name="allowsAutomaticValidation">
+											<Boolean>true</Boolean>
+										</field>
+									</validationEngine>
+								</field>
+								<field name="allowAutomaticValidation">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="extensions">
+									<null/>
+								</field>
+								<field name="validationSchema">
+									<validationUnitSchema>
+										<field name="dtdSchemaPublicID">
+											<null/>
+										</field>
+										<field name="schematronPhase">
+											<null/>
+										</field>
+										<field name="type">
+											<Integer>6</Integer>
+										</field>
+										<field name="uri">
+											<String>${framework}/schemas/0.9.4/TEILex0.rng</String>
+										</field>
+									</validationUnitSchema>
+								</field>
+								<field name="validationAdvancedSettings">
+									<null/>
+								</field>
+							</validationUnit>
+						</list>
+					</field>
+					<field name="type">
+						<String>Validation_scenario</String>
+					</field>
+					<field name="name">
+						<String>TEI Lex-0 v0.9.4</String>
+					</field>
+				</validationScenario><validationScenario>
+					<field name="pairs">
+						<list>
+							<validationUnit>
+								<field name="validationType">
+									<validationUnitType>
+										<field name="validationInputType">
+											<String>text/xml</String>
+										</field>
+									</validationUnitType>
+								</field>
+								<field name="url">
+									<String>${currentFileURL}</String>
+								</field>
+								<field name="validationEngine">
+									<validationEngine>
+										<field name="engineType">
+											<String>&lt;Default engine&gt;</String>
+										</field>
+										<field name="allowsAutomaticValidation">
+											<Boolean>true</Boolean>
+										</field>
+									</validationEngine>
+								</field>
+								<field name="allowAutomaticValidation">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="extensions">
+									<null/>
+								</field>
+								<field name="validationSchema">
+									<validationUnitSchema>
+										<field name="dtdSchemaPublicID">
+											<null/>
+										</field>
+										<field name="schematronPhase">
+											<null/>
+										</field>
+										<field name="type">
+											<Integer>6</Integer>
+										</field>
+										<field name="uri">
+											<String>${framework}/schemas/0.9.3/TEILex0.rng</String>
+										</field>
+									</validationUnitSchema>
+								</field>
+								<field name="validationAdvancedSettings">
+									<null/>
+								</field>
+							</validationUnit>
+						</list>
+					</field>
+					<field name="type">
+						<String>Validation_scenario</String>
+					</field>
+					<field name="name">
+						<String>TEI Lex-0 v0.9.3</String>
+					</field>
+				</validationScenario><validationScenario>
+					<field name="pairs">
+						<list>
+							<validationUnit>
+								<field name="validationType">
+									<validationUnitType>
+										<field name="validationInputType">
+											<String>text/xml</String>
+										</field>
+									</validationUnitType>
+								</field>
+								<field name="url">
+									<String>${currentFileURL}</String>
+								</field>
+								<field name="validationEngine">
+									<validationEngine>
+										<field name="engineType">
+											<String>&lt;Default engine&gt;</String>
+										</field>
+										<field name="allowsAutomaticValidation">
+											<Boolean>true</Boolean>
+										</field>
+									</validationEngine>
+								</field>
+								<field name="allowAutomaticValidation">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="extensions">
+									<null/>
+								</field>
+								<field name="validationSchema">
+									<validationUnitSchema>
+										<field name="dtdSchemaPublicID">
+											<null/>
+										</field>
+										<field name="schematronPhase">
+											<null/>
+										</field>
+										<field name="type">
+											<Integer>6</Integer>
+										</field>
+										<field name="uri">
+											<String>${framework}/schemas/0.9.2/TEILex0.rng</String>
+										</field>
+									</validationUnitSchema>
+								</field>
+								<field name="validationAdvancedSettings">
+									<null/>
+								</field>
+							</validationUnit>
+						</list>
+					</field>
+					<field name="type">
+						<String>Validation_scenario</String>
+					</field>
+					<field name="name">
+						<String>TEI Lex-0 v0.9.2</String>
 					</field>
 				</validationScenario><validationScenario>
 					<field name="pairs">
@@ -824,7 +998,7 @@
 											<Integer>6</Integer>
 										</field>
 										<field name="uri">
-											<String>${framework}/schemas/0.9.2/TEILex0.rng</String>
+											<String>${framework}/schemas/0.9.0/TEILex0.rng</String>
 										</field>
 									</validationUnitSchema>
 								</field>
@@ -838,7 +1012,7 @@
 						<String>Validation_scenario</String>
 					</field>
 					<field name="name">
-						<String>TEI Lex-0 v0.9.2</String>
+						<String>TEI Lex-0 v0.9.0</String>
 					</field>
 				</validationScenario><validationScenario>
 					<field name="pairs">

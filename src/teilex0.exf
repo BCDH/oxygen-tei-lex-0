@@ -11,7 +11,7 @@ Open the teilex0.exf file in the Text mode, right click in the editor and choose
 <script xmlns="http://www.oxygenxml.com/ns/framework/extend"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.oxygenxml.com/ns/framework/extend http://www.oxygenxml.com/ns/framework/extend/frameworkExtensionScript.xsd">
-  <name>TEI Lex-0</name>
+  <name>TEI Lex-0 Tools</name>
   <description>oXygen XML Editor framework for TEI Lex-0 resources.</description>
   <priority>High</priority>
 
@@ -34,7 +34,7 @@ Open the teilex0.exf file in the Text mode, right click in the editor and choose
    <addEntry path="${framework}/i18n"/>
   </classpath>
 
-   <defaultSchema schemaType="rng" href="schemas/0.9.2/TEILex0.rng"/>
+   <defaultSchema schemaType="rng" href="schemas/0.9.5/lex-0.rng"/>
 
   <author>
    
