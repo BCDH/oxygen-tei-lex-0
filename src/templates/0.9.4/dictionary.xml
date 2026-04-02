@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://lex-0.org/schema/lex-0.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://lex-0.org/schema/lex-0.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="DICT" type="lex-0">
+ <teiHeader xml:id="DICT-teiHeader">
+  <fileDesc>
+   <titleStmt xml:id="DICT.titleStmt">
+    <title type="full"></title>
+    <title type="abbr"></title>
+    <editor>
+     <persName>
+      <forename></forename>
+      <surname></surname>
+     </persName>
+    </editor>
+   </titleStmt>
+   <publicationStmt>
+    <publisher>
+     <orgName></orgName>
+    </publisher>
+    <authority role="funder">
+     <orgName></orgName>
+    </authority>
+    <availability>
+     <licence target="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International (CC BY 4.0)</licence>
+    </availability>
+   </publicationStmt>
+   <sourceDesc>
+    <listBibl type="corpora">
+     <bibl></bibl>
+    </listBibl>
+   </sourceDesc>
+  </fileDesc>
+  <profileDesc>
+   <langUsage>
+    <language role="objectLanguage" ident=""/>
+    <language role="workingLanguage" ident=""/>
+   </langUsage>
+  </profileDesc>
+ </teiHeader>
+ <text>
+  <body>
+   <div xml:id="DICT.div.001">
+    <entry type="mainEntry" xml:lang="" xml:id="DICT.x">
+     <form type="lemma">
+      <orth></orth>
+      <pron></pron>
+     </form>
+     <gramGrp>
+      <gram type="pos" norm=""></gram>
+      <gram type="gen"></gram>
+     </gramGrp>
+     <sense xml:id="DICT.x.s.1">
+      <def></def>
+     </sense>
+    </entry>
+   </div>
+  </body>
+ </text>
+</TEI>

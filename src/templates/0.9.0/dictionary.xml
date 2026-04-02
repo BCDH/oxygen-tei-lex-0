@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="https://raw.githubusercontent.com/DARIAH-ERIC/lexicalresources/master/Schemas/TEILex0/out/TEILex0.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <?xml-model href="https://raw.githubusercontent.com/DARIAH-ERIC/lexicalresources/master/Schemas/TEILex0/out/TEILex0.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="DICT" type="lex0">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="DICT" type="lex-0">
  <teiHeader xml:id="DICT-teiHeader">
   <fileDesc>
    <titleStmt xml:id="DICT.titleStmt">
@@ -27,20 +27,9 @@
     </availability>
    </publicationStmt>
    <sourceDesc>
-    <biblStruct>
-     <monogr>
-      <title></title>
-      <author>
-       <orgName></orgName>
-      </author>
-      <imprint>
-       <publisher></publisher>
-       <date></date>
-      </imprint>
-      <extent></extent>
-      <extent></extent>
-     </monogr>
-    </biblStruct>
+    <listBibl type="corpora">
+     <bibl></bibl>
+    </listBibl>
    </sourceDesc>
   </fileDesc>
   <profileDesc>
