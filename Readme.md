@@ -6,6 +6,9 @@ The framework is associated only with files from `http://www.tei-c.org/ns/1.0` n
 
 ## Supported version of TEI Lex-0
 
+- [0.9.5](https://github.com/BCDH/tei-lex-0/tree/gh-pages/releases/v0.9.5)
+- [0.9.4](https://github.com/BCDH/tei-lex-0/tree/gh-pages/releases/v0.9.4)
+- [0.9.3](https://github.com/DARIAH-ERIC/lexicalresources/releases/tag/v0.9.3)
 - [0.9.2](https://github.com/DARIAH-ERIC/lexicalresources/releases/tag/v0.9.2)
 - [0.9.1](https://github.com/DARIAH-ERIC/lexicalresources/releases/tag/v0.9.1)
 - [0.9.0](https://github.com/DARIAH-ERIC/lexicalresources/releases/tag/v0.9.0)
@@ -13,7 +16,7 @@ The framework is associated only with files from `http://www.tei-c.org/ns/1.0` n
 ## Features
 
 - templates
-  - dictionary with teiHeader and text 
+  - dictionary with `<teiHeader>` and `<text>`
   - inserting entry with basic structure
 - author view 
   - separate view of the body with entries
@@ -25,12 +28,8 @@ The framework is associated only with files from `http://www.tei-c.org/ns/1.0` n
   - export to PDF
   - merging included entries (using XInclude) in one file
 - Schematron QuickFixes
-  - &lt;bibl&gt; element is not allowed in &lt;sense&gt;
-  - &lt;def&gt; element is not allowed in &lt;cit&gt;
-
-## Current state
-
-This project is in the proof-of-concept phase.
+  -  `<bibl>` element is not allowed in `<sense>`
+  - `<def>` element is not allowed in `<cit>`
 
 ## Build
 
@@ -38,15 +37,11 @@ TEI Lex-0 oXygen Framework can be build using ANT:
 
 - run `ant` command In the root directory 
 
-Distributed version of the framework, `teilex0-oxygen-framework.zip` file, is stored in the `web` subdirectory of the project.
+Distributed version of the framework, `oxygen-tei-lex-0.zip` file, is stored in the `web` subdirectory of the project.
 
 ## Installation
 
-The framework is published via GitHub Pages and can be installed from the internet using the add-on metadata URL:
-
-`https://oxygen.tei-lex-0.org/oxygen-addons.xml`
-
-The `teilex0-oxygen-framework.zip` package and the versioned zip files are published from the same site root and are resolved automatically from `oxygen-addons.xml`.
+The framework can be installed uploading both files from the `web` directory (`oxygen-addons.xml` and `oxygen-tei-lex-0.zip`) to the web server and install the framework from the internet.
 
 The installation process of the framework is described in the [documentation](https://www.oxygenxml.com/doc/versions/25.1/ug-editor/topics/installing-and-updating-add-ons.html) of the oXygen XML editor.
 
@@ -54,7 +49,7 @@ The installation process of the framework is described in the [documentation](ht
 
 Download and unzip source code, or clone the Git Hub repository on your computer.
 
-Open `teilex0-oxygen-framework.xpr` project file from the root directory of this repository in the oXygen XML Editor.
+Open `oxygen-tei-lex-0.xpr` project file from the root directory of this repository in the oXygen XML Editor.
 
 Following steps should be done only once. or if you change the location of your repository on the local disc.
 
@@ -79,6 +74,8 @@ You can extend and change the behaviour of the oXygen XML Editor framework chang
 
 You can also change files in the following subdirectories:
 
+- `_descriptions`
+  - directory with descriptions of available templates
 - `css`
   - directory with Cascading Style Sheets files; edit only `.less` files, `.css` files are generating automatically after saving `.less` file. 
 - `i18n`
