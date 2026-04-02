@@ -405,8 +405,8 @@
               dictionaries.
             </p>
             <div class="meta">
-              <span>Current add-on version: 1.5.2</span>
-              <span>Compatible with oXygen 17.0+</span>
+              <span id="current-version">Current add-on version: 1.5.2</span>
+              <span id="oxygen-compatibility">Compatible with oXygen 17.0+</span>
             </div>
           </section>
         </div>
@@ -489,9 +489,9 @@
                 <strong>Latest framework package</strong>
                 <span>/teilex0-oxygen-framework.zip</span>
               </a>
-              <a href="teilex0-oxygen-framework-1.5.2.zip">
-                <strong>Versioned package 1.5.2</strong>
-                <span>/teilex0-oxygen-framework-1.5.2.zip</span>
+              <a href="teilex0-oxygen-framework-1.5.2.zip" id="versioned-package-link">
+                <strong id="versioned-package-label">Versioned package 1.5.2</strong>
+                <span id="versioned-package-path">/teilex0-oxygen-framework-1.5.2.zip</span>
               </a>
             </div>
           </article>
@@ -553,6 +553,11 @@
         var descriptor = document.getElementById("descriptor-url");
         var copyButton = document.getElementById("copy-descriptor");
         var status = document.getElementById("copy-status");
+        var currentVersion = document.getElementById("current-version");
+        var oxygenCompatibility = document.getElementById("oxygen-compatibility");
+        var versionedPackageLink = document.getElementById("versioned-package-link");
+        var versionedPackageLabel = document.getElementById("versioned-package-label");
+        var versionedPackagePath = document.getElementById("versioned-package-path");
         var dragInstallButton = document.getElementById("drag-install-button");
         var dragDialog = document.getElementById("drag-dialog");
         var closeDragDialog = document.getElementById("close-drag-dialog");
@@ -569,6 +574,60 @@
           dragDialog.hidden = true;
           dragDialog.setAttribute("aria-hidden", "true");
           dragInstallButton.focus();
+        }
+
+        function getFirstElementByLocalName(root, localName) {
+          var elements = root.getElementsByTagNameNS("*", localName);
+          return elements.length ? elements[0] : null;
+        }
+
+        async function syncVersionFromDescriptor() {
+          try {
+            var response = await fetch("oxygen-addons.xml", { cache: "no-store" });
+
+            if (!response.ok) {
+              throw new Error("Failed to load descriptor");
+            }
+
+            var xmlText = await response.text();
+            var xml = new DOMParser().parseFromString(xmlText, "application/xml");
+            var parserError = xml.getElementsByTagName("parsererror")[0];
+
+            if (parserError) {
+              throw new Error("Descriptor XML could not be parsed");
+            }
+
+            var versionNode = getFirstElementByLocalName(xml, "version");
+            var locationNode = getFirstElementByLocalName(xml, "location");
+            var oxyVersionNode = getFirstElementByLocalName(xml, "oxy_version");
+            var version = versionNode && versionNode.textContent
+              ? versionNode.textContent.trim()
+              : "";
+            var packageHref = locationNode ? locationNode.getAttribute("href") : "";
+            var oxyVersion = oxyVersionNode && oxyVersionNode.textContent
+              ? oxyVersionNode.textContent.trim()
+              : "";
+
+            if (version) {
+              currentVersion.textContent = "Current add-on version: " + version;
+            }
+
+            if (oxyVersion) {
+              oxygenCompatibility.textContent =
+                "Compatible with oXygen " + oxyVersion;
+            }
+
+            if (version && packageHref) {
+              var normalizedHref = packageHref.replace(/^\.?\//, "");
+              var versionedHref = normalizedHref.replace(/\.zip$/, "-" + version + ".zip");
+
+              versionedPackageLink.href = versionedHref;
+              versionedPackageLabel.textContent = "Versioned package " + version;
+              versionedPackagePath.textContent = "/" + versionedHref;
+            }
+          } catch (error) {
+            // Keep the static fallback content when the descriptor cannot be loaded.
+          }
         }
 
         copyButton.addEventListener("click", async function () {
@@ -599,6 +658,8 @@
             closeDialog();
           }
         });
+
+        syncVersionFromDescriptor();
       })();
     </script>
   </body>
