@@ -1,27 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir="." name="teilex0" default="zip">
- <property name="project.version" value="1.5.2" />
- <property name="project.name" value="teilex0-oxygen-framework" />
- <property name="build.dir" value="build" />
+<project basedir="." name="oxygen-tei-lex-0" default="zip">
+ <xmlproperty file="framework.xml"/>
+ <property name="project.version" value="${framework.version}"/>
+ <property name="schema.version" value="${framework.schema.version}" />
+ <property name="project.id" value="${framework.id}" />
+ <property name="build.dir" value="build/${schema.version}" />
  <property name="web.dir" value="web" />
+
  <target name="zip">
-  <mkdir dir="${project.name}"/>
-  <copy todir="${project.name}">
-   <fileset dir="./src" includes="**/**"/>
+  <mkdir dir="${project.id}"/>
+  <copy todir="${project.id}">
+   <fileset dir="./src" includes="**/**" />
   </copy>
   
   <mkdir dir="${build.dir}" />
   
-  <zip destfile="${build.dir}/${project.name}.zip">
+  <zip destfile="${build.dir}/${project.id}.zip">
    <zipfileset dir=".">
-    <include name="${project.name}/**/**"></include>
+    <include name="${project.id}/**/**"></include>
    </zipfileset>
   </zip>
   
-  <copy file="${build.dir}/${project.name}.zip"  tofile="${build.dir}/${project.name}-${project.version}.zip" />
-  <copy file="${build.dir}/${project.name}.zip"  tofile="${web.dir}/${project.name}-${project.version}.zip" />
-  <copy file="${build.dir}/${project.name}.zip" todir="${web.dir}" />
-  
-  <delete dir="${project.name}" />
+  <copy file="${build.dir}/${project.id}.zip"  tofile="${build.dir}/${project.id}-${project.version}.zip" />
+  <copy file="${build.dir}/${project.id}.zip"  tofile="${web.dir}/${project.id}-${project.version}.zip" />
+  <copy file="${build.dir}/${project.id}.zip" todir="${web.dir}" />
+
+  <delete dir="${project.id}" />
  </target>
+ 
+ <target name="check-schema-version">
+  <available file="src/schemas/${schema.version}/catalog.xml" property="schema-version.exists"/>
+ </target>
+ 
+ <!-- adds new TEI Lex-0 schema version to the Readme  -->
+ 
+ <target name="add-version-to-readme">
+  <echo level="info" message="Adding info about a new version ${project.version}." />
+  
+ </target>
+ 
+ <!-- adds new TEI Lex-0 schema version to the add-on description for web page -->
+ <target name="add-version-to-web">
+  <echo level="info" message="Changing schema version ${schema.version} and add-on version ${project.version} for web." />
+  <mkdir dir="${build.dir}/web" />
+  <xslt in="./web/addon.xml" out="${build.dir}/web/addon.xml" style="assets/xslt/addon.xsl">
+   <param name="schema-version" expression="${schema.version}"/>
+   <param name="addon-version" expression="${project.version}"/>
+   <param name="base-url" expression="${framework.schema(base-url)}"/>
+   <param name="tags-path" expression="${framework.schema(tags-path)}"/>
+  </xslt>
+ </target>
+ 
+ <!-- adds new TEI Lex-0 schema version to the framework extension, framework script, and validation scenarios -->
+ <target name="add-schema-version-to-framework">
+  <echo level="info" message="Adding new schema version ${schema.version} to the framework and scenarios." />
+  <mkdir dir="${build.dir}/src" />
+  <mkdir dir="${build.dir}/src/resources" />
+  
+  <xslt in="./src/teilex0.exf" out="${build.dir}/src/teilex0.exf" style="assets/xslt/framework-exf.xsl">
+   <param name="schema-version" expression="${schema.version}"/>
+  </xslt>
+  <xslt in="./src/teilex0.framework" out="${build.dir}/src/teilex0.framework" style="assets/xslt/framework.xsl">
+   <param name="schema-version" expression="${schema.version}"/>
+  </xslt>
+  <xslt in="./src/resources/validation.scenarios" out="${build.dir}/src/resources/validation.scenarios" style="assets/xslt/framework.xsl">
+   <param name="schema-version" expression="${schema.version}"/>
+  </xslt>
+  
+ </target>
+
+ <!-- adds new nextCatalog to the main catalog and relative paths to the new TEI Lex-0 schema version -->
+ <target name="add-schema-version" depends="check-schema-version,add-schema-version-to-framework" unless="${schema-version.exists}">
+  <echo level="info" message="Creating XML catalogs for new version ${schema.version}." />
+  <mkdir dir="${build.dir}/src/schemas/${schema.version}" />
+  <xslt in="./src/catalog.xml" out="${build.dir}/src/catalog.xml" style="assets/xslt/catalogs.xsl">
+   <xmlcatalog>
+    <dtd
+     publicId="-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN"
+     location="assets/catalogs/catalog.dtd"/>
+   </xmlcatalog>
+   <param name="schema-version" expression="${schema.version}"/>
+  </xslt>
+  <copy file="assets/catalogs/version-catalog.xml" tofile="${build.dir}/src/schemas/${schema.version}/catalog.xml" />
+
+  <copy file="${build.dir}/catalog.xml" tofile="./src/catalog.xml" overwrite="true" />
+  <copy file="${build.dir}/src/schemas/${schema.version}/catalog.xml" tofile="./src/schemas/${schema.version}/catalog.xml" overwrite="true" />
+  
+ </target>
+ 
 </project>
