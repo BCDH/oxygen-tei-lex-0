@@ -6,7 +6,7 @@
     <title>TEI Lex-0 Framework for oXygen XML Editor</title>
     <meta
       name="description"
-      content="Install the TEI Lex-0 Tools add-on for oXygen XML Editor from the published descriptor URL."
+      content="Install the TEI Lex-0 Framework add-on for oXygen XML Editor from the published descriptor URL."
     />
     <style>
       :root {
@@ -118,16 +118,17 @@
       }
 
       .meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
         margin-top: 24px;
+        margin-bottom: 0;
+        padding-left: 22px;
       }
 
-      .meta span {
+      .meta-value {
+        display: inline-block;
+        margin-left: 0.35rem;
         border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 8px 12px;
+        border-radius: 8px;
+        padding: 0px 4px;
         background: var(--panel-soft);
         color: var(--muted-strong);
         font-size: 0.9rem;
@@ -338,13 +339,6 @@
         margin-bottom: 0.35em;
       }
 
-      .footer-subtitle {
-        text-align: center;
-        font-size: 0.98rem;
-        font-weight: 300;
-        margin-bottom: 1.2em;
-      }
-
       .footer-meta {
         display: flex;
         flex-wrap: wrap;
@@ -404,10 +398,22 @@
               transformation scenarios, and quick fixes for TEI Lex-0
               dictionaries.
             </p>
-            <div class="meta">
-              <span id="current-version">Current add-on version: 1.5.2</span>
-              <span id="oxygen-compatibility">Compatible with oXygen 17.0+</span>
-            </div>
+            <ul class="meta">
+              <li>
+                Current add-on version:
+                <span class="meta-value" id="current-version">Loading...</span>
+              </li>
+              <li>
+                Compatible with oXygen:
+                <span class="meta-value" id="oxygen-compatibility"
+                  >Loading...</span
+                >
+              </li>
+              <li>
+                Supports TEI Lex-0 versions:
+                <span class="meta-value">0.9.0+</span>
+              </li>
+            </ul>
           </section>
         </div>
       </header>
@@ -425,7 +431,7 @@
               <a
                 class="button button-primary"
                 id="drag-install-button"
-                href="oxygen-addons.xml?oxygenAddonId=teilex0-oxygen-framework"
+                href="addon.xml?oxygenAddonId=oxygen-tei-lex-0"
               >
                 Drag into oXygen XML Editor
               </a>
@@ -444,7 +450,7 @@
               screens.
             </p>
             <div class="descriptor" id="descriptor-url">
-              https://oxygen.tei-lex-0.org/oxygen-addons.xml
+              https://oxygen.tei-lex-0.org/addon.xml
             </div>
             <div class="actions">
               <button
@@ -454,7 +460,7 @@
               >
                 Copy descriptor URL
               </button>
-              <a class="button button-secondary" href="oxygen-addons.xml">
+              <a class="button button-secondary" href="addon.xml">
                 Open descriptor
               </a>
             </div>
@@ -481,17 +487,19 @@
               inspection, automation, or manual download.
             </p>
             <div class="linklist">
-              <a href="oxygen-addons.xml">
+              <a href="addon.xml">
                 <strong>Add-on descriptor</strong>
-                <span>/oxygen-addons.xml</span>
+                <span>/addon.xml</span>
               </a>
-              <a href="teilex0-oxygen-framework.zip">
+              <a href="#" id="latest-package-link">
                 <strong>Latest framework package</strong>
-                <span>/teilex0-oxygen-framework.zip</span>
+                <span id="latest-package-path">Loading...</span>
               </a>
-              <a href="teilex0-oxygen-framework-1.5.2.zip" id="versioned-package-link">
-                <strong id="versioned-package-label">Versioned package 1.5.2</strong>
-                <span id="versioned-package-path">/teilex0-oxygen-framework-1.5.2.zip</span>
+              <a href="#" id="versioned-package-link">
+                <strong id="versioned-package-label"
+                  >Versioned package loading...</strong
+                >
+                <span id="versioned-package-path">Loading...</span>
               </a>
             </div>
           </article>
@@ -549,15 +557,25 @@
     <script>
       (function () {
         var origin = window.location.origin || "https://oxygen.tei-lex-0.org";
-        var descriptorUrl = origin + "/oxygen-addons.xml";
+        var descriptorUrl = origin + "/addon.xml";
         var descriptor = document.getElementById("descriptor-url");
         var copyButton = document.getElementById("copy-descriptor");
         var status = document.getElementById("copy-status");
         var currentVersion = document.getElementById("current-version");
-        var oxygenCompatibility = document.getElementById("oxygen-compatibility");
-        var versionedPackageLink = document.getElementById("versioned-package-link");
-        var versionedPackageLabel = document.getElementById("versioned-package-label");
-        var versionedPackagePath = document.getElementById("versioned-package-path");
+        var oxygenCompatibility = document.getElementById(
+          "oxygen-compatibility",
+        );
+        var latestPackageLink = document.getElementById("latest-package-link");
+        var latestPackagePath = document.getElementById("latest-package-path");
+        var versionedPackageLink = document.getElementById(
+          "versioned-package-link",
+        );
+        var versionedPackageLabel = document.getElementById(
+          "versioned-package-label",
+        );
+        var versionedPackagePath = document.getElementById(
+          "versioned-package-path",
+        );
         var dragInstallButton = document.getElementById("drag-install-button");
         var dragDialog = document.getElementById("drag-dialog");
         var closeDragDialog = document.getElementById("close-drag-dialog");
@@ -576,57 +594,99 @@
           dragInstallButton.focus();
         }
 
-        function getFirstElementByLocalName(root, localName) {
-          var elements = root.getElementsByTagNameNS("*", localName);
-          return elements.length ? elements[0] : null;
+        function getPrimaryExtension(root) {
+          var extensions = root.getElementsByTagNameNS("*", "extension");
+          return extensions.length ? extensions[0] : null;
+        }
+
+        function getFirstChildByLocalName(root, localName) {
+          var childNodes = root ? root.childNodes : [];
+
+          for (var i = 0; i < childNodes.length; i += 1) {
+            var node = childNodes[i];
+
+            if (node.nodeType === 1 && node.localName === localName) {
+              return node;
+            }
+          }
+
+          return null;
+        }
+
+        function getChildText(root, localName) {
+          var node = getFirstChildByLocalName(root, localName);
+          return node && node.textContent ? node.textContent.trim() : "";
+        }
+
+        function getChildAttribute(root, localName, attributeName) {
+          var node = getFirstChildByLocalName(root, localName);
+          return node ? node.getAttribute(attributeName) || "" : "";
         }
 
         async function syncVersionFromDescriptor() {
           try {
-            var response = await fetch("oxygen-addons.xml", { cache: "no-store" });
+            var response = await fetch("addon.xml", { cache: "no-store" });
 
             if (!response.ok) {
               throw new Error("Failed to load descriptor");
             }
 
             var xmlText = await response.text();
-            var xml = new DOMParser().parseFromString(xmlText, "application/xml");
+            var xml = new DOMParser().parseFromString(
+              xmlText,
+              "application/xml",
+            );
             var parserError = xml.getElementsByTagName("parsererror")[0];
 
             if (parserError) {
               throw new Error("Descriptor XML could not be parsed");
             }
 
-            var versionNode = getFirstElementByLocalName(xml, "version");
-            var locationNode = getFirstElementByLocalName(xml, "location");
-            var oxyVersionNode = getFirstElementByLocalName(xml, "oxy_version");
-            var version = versionNode && versionNode.textContent
-              ? versionNode.textContent.trim()
-              : "";
-            var packageHref = locationNode ? locationNode.getAttribute("href") : "";
-            var oxyVersion = oxyVersionNode && oxyVersionNode.textContent
-              ? oxyVersionNode.textContent.trim()
-              : "";
+            var extension = getPrimaryExtension(xml);
+
+            if (!extension) {
+              throw new Error("Descriptor extension could not be found");
+            }
+
+            var version = getChildText(extension, "version");
+            var packageHref = getChildAttribute(extension, "location", "href");
+            var oxyVersion = getChildText(extension, "oxy_version");
+            var addonId = extension.getAttribute("id") || "";
 
             if (version) {
-              currentVersion.textContent = "Current add-on version: " + version;
+              currentVersion.textContent = version;
             }
 
             if (oxyVersion) {
-              oxygenCompatibility.textContent =
-                "Compatible with oXygen " + oxyVersion;
+              oxygenCompatibility.textContent = oxyVersion;
             }
 
             if (version && packageHref) {
               var normalizedHref = packageHref.replace(/^\.?\//, "");
-              var versionedHref = normalizedHref.replace(/\.zip$/, "-" + version + ".zip");
+              var versionedHref = normalizedHref.replace(
+                /\.zip$/,
+                "-" + version + ".zip",
+              );
 
+              latestPackageLink.href = normalizedHref;
+              latestPackagePath.textContent = "/" + normalizedHref;
               versionedPackageLink.href = versionedHref;
-              versionedPackageLabel.textContent = "Versioned package " + version;
+              versionedPackageLabel.textContent =
+                "Versioned package " + version;
               versionedPackagePath.textContent = "/" + versionedHref;
             }
+
+            if (addonId) {
+              dragInstallButton.href = "addon.xml?oxygenAddonId=" + addonId;
+            }
           } catch (error) {
-            // Keep the static fallback content when the descriptor cannot be loaded.
+            currentVersion.textContent = "Unavailable";
+            oxygenCompatibility.textContent = "Unavailable";
+            latestPackageLink.removeAttribute("href");
+            latestPackagePath.textContent = "Unavailable";
+            versionedPackageLink.removeAttribute("href");
+            versionedPackageLabel.textContent = "Versioned package unavailable";
+            versionedPackagePath.textContent = "Unavailable";
           }
         }
 
