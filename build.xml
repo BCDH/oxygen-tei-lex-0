@@ -5,27 +5,31 @@
  <property name="schema.version" value="${framework.schema.version}" />
  <property name="project.id" value="${framework.id}" />
  <property name="build.dir" value="build/${schema.version}" />
- <property name="web.dir" value="web" />
+ <property name="package.dir" value="${build.dir}/package/${project.id}" />
 
- <target name="zip">
-  <mkdir dir="${project.id}"/>
-  <copy todir="${project.id}">
+ <target name="clean-package">
+  <delete dir="${package.dir}" />
+  <delete file="${build.dir}/${project.id}.zip" />
+  <delete file="${build.dir}/${project.id}-${project.version}.zip" />
+ </target>
+
+ <target name="zip" depends="clean-package">
+  <mkdir dir="${package.dir}"/>
+  <copy todir="${package.dir}">
    <fileset dir="./src" includes="**/**" />
   </copy>
   
   <mkdir dir="${build.dir}" />
   
   <zip destfile="${build.dir}/${project.id}.zip">
-   <zipfileset dir=".">
+   <zipfileset dir="${build.dir}/package">
     <include name="${project.id}/**/**"></include>
    </zipfileset>
   </zip>
   
-  <copy file="${build.dir}/${project.id}.zip"  tofile="${build.dir}/${project.id}-${project.version}.zip" />
-  <copy file="${build.dir}/${project.id}.zip"  tofile="${web.dir}/${project.id}-${project.version}.zip" />
-  <copy file="${build.dir}/${project.id}.zip" todir="${web.dir}" />
+  <copy file="${build.dir}/${project.id}.zip" tofile="${build.dir}/${project.id}-${project.version}.zip" />
 
-  <delete dir="${project.id}" />
+  <delete dir="${build.dir}/package" />
  </target>
  
  <target name="check-schema-version">
@@ -83,7 +87,7 @@
   </xslt>
   <copy file="assets/catalogs/version-catalog.xml" tofile="${build.dir}/src/schemas/${schema.version}/catalog.xml" />
 
-  <copy file="${build.dir}/catalog.xml" tofile="./src/catalog.xml" overwrite="true" />
+  <copy file="${build.dir}/src/catalog.xml" tofile="./src/catalog.xml" overwrite="true" />
   <copy file="${build.dir}/src/schemas/${schema.version}/catalog.xml" tofile="./src/schemas/${schema.version}/catalog.xml" overwrite="true" />
   
  </target>

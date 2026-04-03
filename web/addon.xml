@@ -39,7 +39,7 @@
          </ul>
          <h3 id="history">History</h3>
            <h4>2.0.0</h4>
-           <p>This version of <strong>TEI Lex-0 Framework</strong> replaces previous versions available in the <a href="https://github.com/DARIAH-ERIC">DARIAH-ERIC</a> repository. Internal identifier of this framework has also changed (from <code>teilex0-oxygen-framework</code> to <code>oxygen-tei-le-0</code>), ie. old installations should be uninstalled manualy.</p>
+           <p>This version of <strong>TEI Lex-0 Framework</strong> replaces the legacy <code>teilex0-oxygen-framework</code> add-on. The internal identifier has changed to <code>oxygen-tei-lex-0</code>, so older installations should be uninstalled manually before installing this package.</p>
            <p>Support for following schemas was added:</p>
            <ul>
             <li><a href="https://github.com/BCDH/tei-lex-0/releases/tag/v0.9.5">0.9.5</a></li>
@@ -120,7 +120,7 @@ modification, are permitted provided that the following conditions are met:
 ]]></xt:license>
     </xt:extension>
  <xt:extension id="teilex0-oxygen-framework">
-  <xt:location href="teilex0-oxygen-framework.zip"/>
+  <xt:location href="https://github.com/BCDH/oxygen-tei-lex-0/releases/download/v1.5.2/teilex0-oxygen-framework-1.5.2.zip"/>
   <xt:version>1.5.2</xt:version>
   <xt:oxy_version>17.0+</xt:oxy_version>
   <xt:type>framework</xt:type>

@@ -24,13 +24,28 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install Ant
+        run: sudo apt-get update && sudo apt-get install --yes ant
+
+      - name: Build framework package
+        run: ./scripts/build-package.sh
+
+      - name: Stage Pages site
+        run: ./scripts/stage-pages.sh site
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: web
+          path: site
 
       - name: Deploy to GitHub Pages
         id: deployment
