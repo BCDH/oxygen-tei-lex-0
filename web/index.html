@@ -208,7 +208,6 @@
       }
 
       .small {
-        color: var(--muted);
         font-size: 0.88rem;
         margin-top: 12px;
       }
@@ -323,42 +322,218 @@
       }
 
       .footer {
-        border-top: 1px solid var(--border);
+        margin-top: auto;
+        padding: 0;
       }
 
       .footer-inner {
-        padding: 1.4em 1.5em 2.2em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         color: var(--muted-strong);
+        font-weight: 300;
+        padding: 1.25em 1.25em 1.5em;
+        border-top: 1px solid var(--border);
       }
 
-      .footer-title {
+      .footer-text-row {
+        text-align: center;
+        font-size: 0.85em;
+        margin-bottom: 1em;
+      }
+
+      .footer-text-row h2 {
+        margin: 0;
+        font-size: 13px;
+        font-weight: inherit;
+        display: block;
+        letter-spacing: 0.5px;
+        font-variant: small-caps;
+      }
+
+      .footer-text-row .footer-subtitle {
+        display: block;
+        font-variant: small-caps;
+        font-size: 18px;
+      }
+
+      .footer-text-row .footer-subtitle::before {
+        content: " — ";
+      }
+
+      .footer-label,
+      .footer-builtwith-label {
         font-size: 13px;
         letter-spacing: 0.04em;
         text-align: center;
         font-variant: small-caps;
-        margin-bottom: 0.35em;
       }
 
-      .footer-meta {
+      .footer-logo {
         display: flex;
-        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .footer-logo-tei img {
+        height: 30px;
+        width: auto;
+      }
+
+      .footer-logo-github img {
+        height: 20px;
+        width: auto;
+      }
+
+      .footer-logo-dariah img {
+        height: 32px;
+        width: auto;
+      }
+
+      .footer-logo-bcdh img {
+        height: 24px;
+        width: auto;
+      }
+
+      .footer-logo-oxygen img {
+        height: 24px;
+        width: auto;
+      }
+
+      .footer-logo-github {
+        transform: translateY(0px);
+      }
+
+      .footer-logo-dariah {
+        transform: translateX(-6px) translateY(-3px);
+      }
+
+      .footer-logo-bcdh,
+      .footer-logo-oxygen,
+      .footer-logo-tei {
+        transform: translateY(3px);
+      }
+
+      .xs-mobile {
+        display: none;
+        width: 100%;
+      }
+
+      .xs-mobile-row {
+        display: flex;
+        align-items: center;
         justify-content: center;
-        gap: 10px 22px;
-        font-size: 0.86rem;
-        text-align: center;
+        gap: 1.25em;
       }
 
-      .footer-meta span {
-        color: var(--muted);
+      .xs-mobile-row-top {
+        margin-bottom: 1em;
+        display: grid;
+        grid-template-columns: 1fr max-content 1fr;
+        align-items: center;
+        column-gap: 0.85em;
       }
 
-      .footer-meta a {
-        text-decoration: none;
+      .xs-mobile-row-top > :nth-child(1) {
+        justify-self: end;
       }
 
-      .footer-meta a:hover,
-      .footer-meta a:focus-visible {
-        text-decoration: underline;
+      .xs-mobile-row-top > :nth-child(2) {
+        justify-self: center;
+      }
+
+      .xs-mobile-row-top > :nth-child(3) {
+        justify-self: start;
+      }
+
+      .xs-mobile-row-bottom {
+        justify-content: space-between;
+        max-width: 540px;
+        margin: 0 auto;
+      }
+
+      .xs-mobile .footer-logo {
+        transform: none;
+      }
+
+      .footer-mobile {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+      }
+
+      .footer-builtwith {
+        display: grid;
+        grid-template-columns: max-content max-content;
+        grid-template-rows: auto auto;
+        column-gap: 7em;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .footer-builtwith-labels,
+      .footer-builtwith-logos {
+        display: contents;
+      }
+
+      .footer-builtwith-tei,
+      .footer-builtwith-github {
+        justify-self: center;
+      }
+
+      .footer-main {
+        display: grid;
+        grid-template-columns: 1fr max-content 1fr;
+        column-gap: 2em;
+        align-items: center;
+      }
+
+      .footer-main-labels,
+      .footer-main-logos,
+      .footer-desktop-labels,
+      .footer-desktop-logos {
+        display: contents;
+      }
+
+      .footer-main-labels .footer-label:nth-child(1) {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: center;
+      }
+
+      .footer-main-labels .footer-label:nth-child(2) {
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: center;
+      }
+
+      .footer-main-labels .footer-label:nth-child(3) {
+        grid-column: 3;
+        grid-row: 1;
+        justify-self: center;
+      }
+
+      .footer-main-logos .footer-left {
+        grid-column: 1;
+        grid-row: 2;
+        justify-self: center;
+      }
+
+      .footer-main-logos .footer-center {
+        grid-column: 2;
+        grid-row: 2;
+        justify-self: center;
+      }
+
+      .footer-main-logos .footer-right {
+        grid-column: 3;
+        grid-row: 2;
+        justify-self: center;
+      }
+
+      .footer-desktop {
+        display: none;
+        width: 100%;
       }
 
       @media (max-width: 800px) {
@@ -378,6 +553,89 @@
         .footer-inner {
           padding-left: 1.25em;
           padding-right: 1.25em;
+        }
+      }
+
+      @media (max-width: 420px) {
+        .footer-mobile,
+        .footer-desktop {
+          display: none;
+        }
+
+        .xs-mobile {
+          display: block;
+        }
+
+        .xs-mobile-row-top {
+          gap: 2em;
+        }
+
+        .xs-mobile-row-bottom {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 1.25em;
+          max-width: none;
+          margin: 0;
+        }
+
+        .footer-logo-tei img,
+        .footer-logo-github img {
+          height: 24px;
+        }
+      }
+
+      @media (min-width: 56em) {
+        .footer-text-row h2,
+        .footer-text-row .footer-subtitle {
+          display: inline;
+        }
+
+        .footer-mobile {
+          display: none;
+        }
+
+        .footer-desktop {
+          display: grid;
+          grid-template-columns: 1fr 1fr max-content 1fr 1fr;
+          grid-template-rows: auto auto;
+          column-gap: 2em;
+          justify-items: center;
+          align-items: center;
+        }
+
+        .footer-desktop-label {
+          grid-row: 1;
+        }
+
+        .footer-desktop-logo {
+          grid-row: 2;
+          justify-self: center;
+        }
+
+        .footer-desktop-labels .footer-desktop-label:nth-child(1),
+        .footer-desktop-logos .footer-desktop-logo:nth-child(1) {
+          grid-column: 1;
+        }
+
+        .footer-desktop-labels .footer-desktop-label:nth-child(2),
+        .footer-desktop-logos .footer-desktop-logo:nth-child(2) {
+          grid-column: 2;
+        }
+
+        .footer-desktop-labels .footer-desktop-label:nth-child(3),
+        .footer-desktop-logos .footer-desktop-logo:nth-child(3) {
+          grid-column: 3;
+        }
+
+        .footer-desktop-labels .footer-desktop-label:nth-child(4),
+        .footer-desktop-logos .footer-desktop-logo:nth-child(4) {
+          grid-column: 4;
+        }
+
+        .footer-desktop-labels .footer-desktop-label:nth-child(5),
+        .footer-desktop-logos .footer-desktop-logo:nth-child(5) {
+          grid-column: 5;
         }
       }
     </style>
@@ -516,11 +774,6 @@
         </section>
 
         <p class="note">
-          If the install button does not work in your browser, the descriptor
-          URL above is the canonical installation endpoint and can always be
-          pasted directly into the oXygen add-on manager.
-        </p>
-        <p class="note">
           Older <code>teilex0-oxygen-framework</code> downloads are preserved in
           the GitHub Releases archive and are no longer shipped directly from
           this site.
@@ -561,10 +814,202 @@
 
     <footer class="footer">
       <div class="footer-inner">
-        <div class="footer-title">TEI LEX-0</div>
+        <!-- <div class="footer-text-row">
+          <h2></h2>
+        </div> -->
 
-        <div class="footer-meta">
-          <a href="https://lex-0.org/">lex-0.org</a>
+        <div class="xs-mobile">
+          <div class="xs-mobile-row xs-mobile-row-top">
+            <a
+              href="https://tei-c.org/"
+              class="footer-logo footer-logo-tei"
+              aria-label="Built with TEI"
+            >
+              <img src="images/TEI_logo_xs.png" alt="TEI" />
+            </a>
+            <a
+              href="https://www.oxygenxml.com/xml_editor.html"
+              class="footer-logo footer-logo-oxygen"
+              aria-label="Built for oXygen XML Editor"
+            >
+              <img src="images/oxygen.png" alt="oXygen XML Editor" />
+            </a>
+            <a
+              href="https://github.com/BCDH/oxygen-tei-lex-0"
+              class="footer-logo footer-logo-github"
+              aria-label="Source code on GitHub"
+            >
+              <img src="images/github.png" alt="GitHub" />
+            </a>
+          </div>
+
+          <div class="xs-mobile-row xs-mobile-row-bottom">
+            <a
+              href="https://www.dariah.eu/activities/working-groups/lexical-resources/"
+              class="footer-logo footer-logo-dariah"
+              aria-label="Maintained in the DARIAH lexical resources context"
+            >
+              <img
+                src="images/dariah-lr-blue.png"
+                alt="DARIAH Lexical Resources"
+              />
+            </a>
+            <a
+              href="https://humanistika.org"
+              class="footer-logo footer-logo-bcdh"
+              aria-label="Hosted by BCDH"
+            >
+              <img
+                src="images/cdhn-logo.webp"
+                alt="Belgrade Center for Digital Humanities"
+              />
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-mobile">
+          <div class="footer-builtwith">
+            <div class="footer-builtwith-labels">
+              <div class="footer-builtwith-label">built with</div>
+              <div class="footer-builtwith-label">sourced on</div>
+            </div>
+
+            <div class="footer-builtwith-logos">
+              <div class="footer-builtwith-tei">
+                <a
+                  href="https://tei-c.org/"
+                  class="footer-logo footer-logo-tei"
+                  aria-label="Built with TEI"
+                >
+                  <img src="images/TEI_logo.png" alt="TEI" />
+                </a>
+              </div>
+
+              <div class="footer-builtwith-github">
+                <a
+                  href="https://github.com/BCDH/oxygen-tei-lex-0"
+                  class="footer-logo footer-logo-github"
+                  aria-label="Source code on GitHub"
+                >
+                  <img src="images/github.png" alt="GitHub" />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-main">
+            <div class="footer-main-labels">
+              <div class="footer-label">maintained by</div>
+              <div class="footer-label">built for</div>
+              <div class="footer-label">hosted by</div>
+            </div>
+
+            <div class="footer-main-logos">
+              <div class="footer-left">
+                <a
+                  href="https://www.dariah.eu/activities/working-groups/lexical-resources/"
+                  class="footer-logo footer-logo-dariah"
+                  aria-label="Maintained in the DARIAH lexical resources context"
+                >
+                  <img
+                    src="images/dariah-lr-blue.png"
+                    alt="DARIAH Lexical Resources"
+                  />
+                </a>
+              </div>
+
+              <div class="footer-center">
+                <a
+                  href="https://www.oxygenxml.com/xml_editor.html"
+                  class="footer-logo footer-logo-oxygen"
+                  aria-label="Built for oXygen XML Editor"
+                >
+                  <img src="images/oxygen.png" alt="oXygen XML Editor" />
+                </a>
+              </div>
+
+              <div class="footer-right">
+                <a
+                  href="https://humanistika.org"
+                  class="footer-logo footer-logo-bcdh"
+                  aria-label="Hosted by BCDH"
+                >
+                  <img
+                    src="images/cdhn-logo.webp"
+                    alt="Belgrade Center for Digital Humanities"
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-desktop">
+          <div class="footer-desktop-labels">
+            <div class="footer-desktop-label footer-label">maintained by</div>
+            <div class="footer-desktop-label footer-label">built with</div>
+            <div class="footer-desktop-label footer-label">built for</div>
+            <div class="footer-desktop-label footer-label">sourced on</div>
+            <div class="footer-desktop-label footer-label">hosted by</div>
+          </div>
+
+          <div class="footer-desktop-logos">
+            <div class="footer-desktop-logo footer-desktop-logo-dariah">
+              <a
+                href="https://www.dariah.eu/activities/working-groups/lexical-resources/"
+                class="footer-logo footer-logo-dariah"
+                aria-label="Maintained in the DARIAH lexical resources context"
+              >
+                <img
+                  src="images/dariah-lr-blue.png"
+                  alt="DARIAH Lexical Resources"
+                />
+              </a>
+            </div>
+
+            <div class="footer-desktop-logo footer-desktop-logo-tei">
+              <a
+                href="https://tei-c.org/"
+                class="footer-logo footer-logo-tei"
+                aria-label="Built with TEI"
+              >
+                <img src="images/TEI_logo.png" alt="TEI" />
+              </a>
+            </div>
+
+            <div class="footer-desktop-logo footer-desktop-logo-cc">
+              <a
+                href="https://www.oxygenxml.com/xml_editor.html"
+                class="footer-logo footer-logo-oxygen"
+                aria-label="Built for oXygen XML Editor"
+              >
+                <img src="images/oxygen.png" alt="oXygen XML Editor" />
+              </a>
+            </div>
+
+            <div class="footer-desktop-logo footer-desktop-logo-github">
+              <a
+                href="https://github.com/BCDH/oxygen-tei-lex-0"
+                class="footer-logo footer-logo-github"
+                aria-label="Source code on GitHub"
+              >
+                <img src="images/github.png" alt="GitHub" />
+              </a>
+            </div>
+
+            <div class="footer-desktop-logo footer-desktop-logo-bcdh">
+              <a
+                href="https://humanistika.org"
+                class="footer-logo footer-logo-bcdh"
+                aria-label="Hosted by BCDH"
+              >
+                <img
+                  src="images/cdhn-logo.webp"
+                  alt="Belgrade Center for Digital Humanities"
+                />
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
