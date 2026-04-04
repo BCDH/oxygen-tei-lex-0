@@ -40,8 +40,8 @@ TEI Lex-0 oXygen Framework can be built locally using ANT:
 
 GitHub Actions publishes the current installable package to GitHub Pages:
 
-- stable package: `https://oxygen.tei-lex-0.org/oxygen-tei-lex-0.zip`
-- versioned package: `https://oxygen.tei-lex-0.org/oxygen-tei-lex-0-<version>.zip`
+- stable package: `https://oxy.lex-0.org/oxygen-tei-lex-0.zip`
+- versioned package: `https://oxy.lex-0.org/oxygen-tei-lex-0-<version>.zip`
 
 Historical package archives are published as GitHub Release assets in this repository.
 
@@ -54,7 +54,7 @@ Historical package archives are published as GitHub Release assets in this repos
 
 ## Installation
 
-The canonical installation endpoint is `https://oxygen.tei-lex-0.org/addon.xml`.
+The canonical installation endpoint is `https://oxy.lex-0.org/addon.xml`.
 
 The current framework package and the deprecated legacy package are both referenced from that descriptor. Historical downloads are available from the repository releases page.
 
