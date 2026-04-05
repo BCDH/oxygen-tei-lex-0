@@ -16,6 +16,8 @@ if [ ! -d "${site_dir}" ]; then
   exit 1
 fi
 
+site_dir=$(cd "${site_dir}" && pwd)
+
 if [ -z "${GITHUB_TOKEN:-}" ]; then
   echo "Missing GITHUB_TOKEN for publishing ${target_repository}" >&2
   exit 1
