@@ -1,0 +1,1210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TEI Lex-0 Framework for oXygen XML Editor</title>
+    <meta
+      name="description"
+      content="Install the TEI Lex-0 Framework add-on for oXygen XML Editor from the published descriptor URL."
+    />
+    <meta name="deployment-environment" content="dev" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <style>
+      :root {
+        --ink: #24292e;
+        --heading: #333333;
+        --link: #1f8dd6;
+        --slate: #1a252f;
+        --slate-soft: #2c3e50;
+        --border: #e6eaee;
+        --muted: #6b7280;
+        --muted-strong: #334155;
+        --panel: #ffffff;
+        --panel-soft: #f2faff;
+        --warm: #f5844c;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      button,
+      input,
+      select,
+      textarea {
+        font-family:
+          -apple-system, ".SFNSText-Regular", "San Francisco", Roboto,
+          "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+        font-size: 18px;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: #ffffff;
+        min-height: 100vh;
+      }
+
+      a {
+        color: var(--link);
+        text-decoration: underline;
+        text-underline-offset: 0.12em;
+      }
+
+      .page {
+        width: 100%;
+      }
+
+      .header-inner,
+      .content,
+      .footer-inner {
+        max-width: 800px;
+        margin: 0 auto;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .header-inner {
+        padding: 2.5em 2em 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .content {
+        padding: 2em 1.5em 3em;
+      }
+
+      .hero {
+        padding-bottom: 1.8em;
+      }
+
+      .eyebrow {
+        margin: 0 0 0.5rem;
+        color: var(--muted-strong);
+        font-size: 13px;
+        letter-spacing: 0.04em;
+        font-variant: small-caps;
+      }
+
+      h1,
+      h2 {
+        font-family: inherit;
+        color: var(--heading);
+        letter-spacing: 0;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(2.25rem, 4.6vw, 3rem);
+        font-weight: 300;
+        line-height: 1.12;
+      }
+
+      h2 {
+        font-size: 1.35rem;
+        font-weight: 400;
+        margin-bottom: 12px;
+      }
+
+      p {
+        line-height: 1.65;
+        margin: 0;
+      }
+
+      .lead {
+        font-size: 1.04rem;
+        color: var(--ink);
+        max-width: 62ch;
+        margin-top: 18px;
+      }
+
+      .meta {
+        margin-top: 24px;
+        margin-bottom: 0;
+        padding-left: 22px;
+      }
+
+      .meta-value {
+        display: inline-block;
+        margin-left: 0.35rem;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0px 4px;
+        background: var(--panel-soft);
+        color: var(--muted-strong);
+        font-size: 0.9rem;
+      }
+
+      .grid {
+        display: grid;
+        gap: 20px;
+        margin-top: 1.5em;
+        grid-template-columns: 1fr;
+      }
+
+      .panel {
+        padding: 1.5em;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 20px;
+      }
+
+      .button,
+      .linklist a {
+        transition:
+          background-color 160ms ease,
+          border-color 160ms ease,
+          color 160ms ease;
+      }
+
+      .button {
+        appearance: none;
+        border: 1px solid transparent;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0 16px;
+        border-radius: 4px;
+        font-weight: 500;
+        font-size: 0.95rem;
+      }
+
+      .button:hover,
+      .button:focus-visible,
+      .linklist a:hover,
+      .linklist a:focus-visible {
+        box-shadow: none;
+      }
+
+      .button-primary {
+        color: #ffffff;
+        background: var(--link);
+      }
+
+      .button-primary:hover,
+      .button-primary:focus-visible {
+        background: #ed6f59;
+      }
+
+      .button-secondary {
+        color: var(--link);
+        background: #ffffff;
+        border-color: var(--link);
+      }
+
+      .button-secondary:hover,
+      .button-secondary:focus-visible {
+        border-color: #ed6f59;
+        color: #ed6f59;
+      }
+
+      .small {
+        font-size: 0.88rem;
+        margin-top: 12px;
+      }
+
+      .descriptor {
+        margin-top: 20px;
+        padding: 16px 18px;
+        border-radius: 4px;
+        background: var(--panel-soft);
+        border: 1px solid var(--border);
+        overflow-wrap: anywhere;
+        font-family:
+          ui-monospace, "SFMono-Regular", "SF Mono", Consolas,
+          "Liberation Mono", monospace;
+        font-size: 0.95rem;
+      }
+
+      ol,
+      ul {
+        padding-left: 22px;
+        margin: 18px 0 0;
+        line-height: 1.65;
+      }
+
+      li + li {
+        margin-top: 8px;
+      }
+
+      code {
+        font-family:
+          ui-monospace, "SFMono-Regular", "SF Mono", Consolas,
+          "Liberation Mono", monospace;
+        font-size: 0.95em;
+      }
+
+      .linklist {
+        display: grid;
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .linklist a {
+        display: block;
+        padding: 16px 18px;
+        border-radius: 4px;
+        border: 1px solid var(--border);
+        background: var(--panel-soft);
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .linklist a:hover,
+      .linklist a:focus-visible {
+        border-color: var(--link);
+      }
+
+      .linklist strong {
+        display: block;
+        font-size: 1rem;
+        margin-bottom: 4px;
+      }
+
+      .linklist span {
+        color: var(--muted);
+        font-size: 0.94rem;
+        overflow-wrap: anywhere;
+      }
+
+      .note {
+        margin-top: 1.5em;
+        padding-left: 1em;
+        border-left: 4px solid var(--link);
+        color: var(--muted-strong);
+      }
+
+      .modal[hidden] {
+        display: none;
+      }
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5em;
+        background: rgba(26, 37, 47, 0.62);
+      }
+
+      .modal-panel {
+        width: min(100%, 32rem);
+        padding: 1.5em;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #ffffff;
+        box-shadow: 0 12px 30px rgba(26, 37, 47, 0.18);
+      }
+
+      .modal-panel h2 {
+        margin-bottom: 0.5em;
+      }
+
+      .modal-panel p + p {
+        margin-top: 0.8em;
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1.25em;
+      }
+
+      .footer {
+        margin-top: auto;
+        padding: 0;
+      }
+
+      .footer-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: var(--muted-strong);
+        font-weight: 300;
+        padding: 1.25em 1.25em 1.5em;
+        border-top: 1px solid var(--border);
+      }
+
+      .footer-text-row {
+        text-align: center;
+        font-size: 0.85em;
+        margin-bottom: 1em;
+      }
+
+      .footer-text-row h2 {
+        margin: 0;
+        font-size: 13px;
+        font-weight: inherit;
+        display: block;
+        letter-spacing: 0.5px;
+        font-variant: small-caps;
+      }
+
+      .footer-text-row .footer-subtitle {
+        display: block;
+        font-variant: small-caps;
+        font-size: 18px;
+      }
+
+      .footer-text-row .footer-subtitle::before {
+        content: " — ";
+      }
+
+      .footer-label,
+      .footer-builtwith-label {
+        font-size: 13px;
+        letter-spacing: 0.04em;
+        text-align: center;
+        font-variant: small-caps;
+      }
+
+      .footer-logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .footer-logo-tei img {
+        height: 30px;
+        width: auto;
+      }
+
+      .footer-logo-github img {
+        height: 20px;
+        width: auto;
+      }
+
+      .footer-logo-dariah img {
+        height: 32px;
+        width: auto;
+      }
+
+      .footer-logo-bcdh img {
+        height: 24px;
+        width: auto;
+      }
+
+      .footer-logo-oxygen img {
+        height: 24px;
+        width: auto;
+      }
+
+      .footer-logo-github {
+        transform: translateY(0px);
+      }
+
+      .footer-logo-dariah {
+        transform: translateX(-6px) translateY(-3px);
+      }
+
+      .footer-logo-bcdh,
+      .footer-logo-oxygen,
+      .footer-logo-tei {
+        transform: translateY(3px);
+      }
+
+      .xs-mobile {
+        display: none;
+        width: 100%;
+      }
+
+      .xs-mobile-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.25em;
+      }
+
+      .xs-mobile-row-top {
+        margin-bottom: 1em;
+        display: grid;
+        grid-template-columns: 1fr max-content 1fr;
+        align-items: center;
+        column-gap: 0.85em;
+      }
+
+      .xs-mobile-row-top > :nth-child(1) {
+        justify-self: end;
+      }
+
+      .xs-mobile-row-top > :nth-child(2) {
+        justify-self: center;
+      }
+
+      .xs-mobile-row-top > :nth-child(3) {
+        justify-self: start;
+      }
+
+      .xs-mobile-row-bottom {
+        justify-content: space-between;
+        max-width: 540px;
+        margin: 0 auto;
+      }
+
+      .xs-mobile .footer-logo {
+        transform: none;
+      }
+
+      .footer-mobile {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+      }
+
+      .footer-builtwith {
+        display: grid;
+        grid-template-columns: max-content max-content;
+        grid-template-rows: auto auto;
+        column-gap: 7em;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .footer-builtwith-labels,
+      .footer-builtwith-logos {
+        display: contents;
+      }
+
+      .footer-builtwith-tei,
+      .footer-builtwith-github {
+        justify-self: center;
+      }
+
+      .footer-main {
+        display: grid;
+        grid-template-columns: 1fr max-content 1fr;
+        column-gap: 2em;
+        align-items: center;
+      }
+
+      .footer-main-labels,
+      .footer-main-logos,
+      .footer-desktop-labels,
+      .footer-desktop-logos {
+        display: contents;
+      }
+
+      .footer-main-labels .footer-label:nth-child(1) {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: center;
+      }
+
+      .footer-main-labels .footer-label:nth-child(2) {
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: center;
+      }
+
+      .footer-main-labels .footer-label:nth-child(3) {
+        grid-column: 3;
+        grid-row: 1;
+        justify-self: center;
+      }
+
+      .footer-main-logos .footer-left {
+        grid-column: 1;
+        grid-row: 2;
+        justify-self: center;
+      }
+
+      .footer-main-logos .footer-center {
+        grid-column: 2;
+        grid-row: 2;
+        justify-self: center;
+      }
+
+      .footer-main-logos .footer-right {
+        grid-column: 3;
+        grid-row: 2;
+        justify-self: center;
+      }
+
+      .footer-desktop {
+        display: none;
+        width: 100%;
+      }
+
+      @media (max-width: 800px) {
+        html,
+        button,
+        input,
+        select,
+        textarea {
+          font-size: 17px;
+        }
+
+        .header-inner {
+          padding: 1.75em 1.25em 0;
+        }
+
+        .content,
+        .footer-inner {
+          padding-left: 1.25em;
+          padding-right: 1.25em;
+        }
+      }
+
+      @media (max-width: 420px) {
+        .footer-mobile,
+        .footer-desktop {
+          display: none;
+        }
+
+        .xs-mobile {
+          display: block;
+        }
+
+        .xs-mobile-row-top {
+          gap: 2em;
+        }
+
+        .xs-mobile-row-bottom {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 1.25em;
+          max-width: none;
+          margin: 0;
+        }
+
+        .footer-logo-tei img,
+        .footer-logo-github img {
+          height: 24px;
+        }
+      }
+
+      @media (min-width: 56em) {
+        .footer-text-row h2,
+        .footer-text-row .footer-subtitle {
+          display: inline;
+        }
+
+        .footer-mobile {
+          display: none;
+        }
+
+        .footer-desktop {
+          display: grid;
+          grid-template-columns: 1fr 1fr max-content 1fr 1fr;
+          grid-template-rows: auto auto;
+          column-gap: 2em;
+          justify-items: center;
+          align-items: center;
+        }
+
+        .footer-desktop-label {
+          grid-row: 1;
+        }
+
+        .footer-desktop-logo {
+          grid-row: 2;
+          justify-self: center;
+        }
+
+        .footer-desktop-labels .footer-desktop-label:nth-child(1),
+        .footer-desktop-logos .footer-desktop-logo:nth-child(1) {
+          grid-column: 1;
+        }
+
+        .footer-desktop-labels .footer-desktop-label:nth-child(2),
+        .footer-desktop-logos .footer-desktop-logo:nth-child(2) {
+          grid-column: 2;
+        }
+
+        .footer-desktop-labels .footer-desktop-label:nth-child(3),
+        .footer-desktop-logos .footer-desktop-logo:nth-child(3) {
+          grid-column: 3;
+        }
+
+        .footer-desktop-labels .footer-desktop-label:nth-child(4),
+        .footer-desktop-logos .footer-desktop-logo:nth-child(4) {
+          grid-column: 4;
+        }
+
+        .footer-desktop-labels .footer-desktop-label:nth-child(5),
+        .footer-desktop-logos .footer-desktop-logo:nth-child(5) {
+          grid-column: 5;
+        }
+      }
+    
+      .env-banner {
+        padding: 0.85rem 1rem;
+        border-bottom: 1px solid #d95f49;
+        background: #ed6f59;
+        color: #ffffff;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        text-align: center;
+      }
+
+      .env-banner code {
+        background: rgba(255, 255, 255, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        border-radius: 4px;
+        padding: 0.1rem 0.35rem;
+      }
+    </style>
+  </head>
+  <body data-environment="dev">
+    <div class="env-banner" data-environment-banner="dev">
+      <strong>Staging environment.</strong> This site is published from the
+      <code>dev</code> branch for testing before production release.
+    </div>
+
+    <main class="page">
+      <header class="header">
+        <div class="header-inner">
+          <section class="hero">
+            <p class="eyebrow">tools for dictionary nerds</p>
+            <h1>TEI Lex-0 Framework</h1>
+            <p class="lead">
+              This package extends
+              <a href="https://www.oxygenxml.com/xml_editor.html"
+                >oXygen XML Editor</a
+              >
+              with templates, author-mode customizations, validation support,
+              transformation scenarios, and quick fixes for
+              <a href="https://lex-0.org">TEI Lex-0</a>
+              dictionaries.
+            </p>
+            <ul class="meta">
+              <li>
+                Current framework version:
+                <span class="meta-value" id="current-version">Loading...</span>
+              </li>
+              <li>
+                Compatible with oXygen:
+                <span class="meta-value" id="oxygen-compatibility"
+                  >Loading...</span
+                >
+              </li>
+              <li>
+                Supports TEI Lex-0 versions:
+                <span class="meta-value">0.9.0+</span>
+              </li>
+            </ul>
+          </section>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="grid" aria-label="Installation options">
+          <article class="panel">
+            <h2>Fastest install</h2>
+            <p>
+              oXygen supports a drag-to-install workflow for add-ons. Drag the
+              install button below into the main editing area of the oXygen
+              desktop application, then accept the prompts.
+            </p>
+            <div class="actions">
+              <a
+                class="button button-primary"
+                id="drag-install-button"
+                href="addon.xml?oxygenAddonId=oxygen-tei-lex-0"
+              >
+                Drag into oXygen XML Editor
+              </a>
+            </div>
+            <p class="small">
+              If dragging is not convenient, use the manual install method.
+            </p>
+          </article>
+
+          <article class="panel">
+            <h2>Manual install</h2>
+            <p>
+              In oXygen XML Editor, go to
+              <code>Help &gt; Install new add-ons</code>, paste the descriptor
+              URL below, then continue through the license and confirmation
+              screens.
+            </p>
+            <div class="descriptor" id="descriptor-url">
+              https://dev.oxy.lex-0.org/addon.xml
+            </div>
+            <div class="actions">
+              <button
+                class="button button-secondary"
+                id="copy-descriptor"
+                type="button"
+              >
+                Copy descriptor URL
+              </button>
+              <a class="button button-secondary" href="addon.xml">
+                Open descriptor
+              </a>
+            </div>
+            <p class="small" id="copy-status" aria-live="polite"></p>
+          </article>
+
+          <article class="panel">
+            <h2>What gets installed</h2>
+            <ul>
+              <li>Document templates for TEI Lex-0 dictionaries</li>
+              <li>Author-mode views for entries and <code>teiHeader</code></li>
+              <li>Validation scenarios and Schematron Quick Fixes</li>
+              <li>
+                Transformation scenarios for extraction, statistics, PDF, and
+                merging
+              </li>
+            </ul>
+          </article>
+
+          <article class="panel">
+            <h2>Published files</h2>
+            <p>
+              The descriptor and package archives remain directly accessible for
+              inspection, automation, or manual download.
+            </p>
+            <div class="linklist">
+              <a href="addon.xml">
+                <strong>Add-on descriptor</strong>
+                <span>/addon.xml</span>
+              </a>
+              <a href="#" id="latest-package-link">
+                <strong>Latest framework package</strong>
+                <span id="latest-package-path">Loading...</span>
+              </a>
+              <a href="#" id="versioned-package-link">
+                <strong id="versioned-package-label"
+                  >Versioned package loading...</strong
+                >
+                <span id="versioned-package-path">Loading...</span>
+              </a>
+              <a
+                href="https://github.com/BCDH/oxygen-tei-lex-0/releases"
+                rel="noopener noreferrer"
+              >
+                <strong>Historical releases archive</strong>
+                <span
+                  >GitHub Releases for legacy TEI Lex-0 Framework packages</span
+                >
+              </a>
+            </div>
+          </article>
+        </section>
+
+        <p class="note">
+          Older <code>teilex0-oxygen-framework</code> downloads are preserved in
+          the GitHub Releases archive and are no longer shipped directly from
+          this site.
+        </p>
+      </div>
+    </main>
+
+    <div
+      aria-hidden="true"
+      aria-labelledby="drag-dialog-title"
+      class="modal"
+      hidden
+      id="drag-dialog"
+      role="dialog"
+    >
+      <div class="modal-panel">
+        <h2 id="drag-dialog-title">Drag this button instead of clicking it</h2>
+        <p>
+          oXygen uses this link as a drag target. To start installation, drag
+          the button into the main editing area of the oXygen desktop
+          application.
+        </p>
+        <p>
+          If you prefer not to drag, use the descriptor URL in
+          <code>Help &gt; Install new add-ons</code>.
+        </p>
+        <div class="modal-actions">
+          <button
+            class="button button-secondary"
+            id="close-drag-dialog"
+            type="button"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <!-- <div class="footer-text-row">
+          <h2></h2>
+        </div> -->
+
+        <div class="xs-mobile">
+          <div class="xs-mobile-row xs-mobile-row-top">
+            <a
+              href="https://tei-c.org/"
+              class="footer-logo footer-logo-tei"
+              aria-label="Built with TEI"
+            >
+              <img src="images/TEI_logo_xs.png" alt="TEI" />
+            </a>
+            <a
+              href="https://www.oxygenxml.com/xml_editor.html"
+              class="footer-logo footer-logo-oxygen"
+              aria-label="Built for oXygen XML Editor"
+            >
+              <img src="images/oxygen.png" alt="oXygen XML Editor" />
+            </a>
+            <a
+              href="https://github.com/BCDH/oxygen-tei-lex-0"
+              class="footer-logo footer-logo-github"
+              aria-label="Source code on GitHub"
+            >
+              <img src="images/github.png" alt="GitHub" />
+            </a>
+          </div>
+
+          <div class="xs-mobile-row xs-mobile-row-bottom">
+            <a
+              href="https://www.dariah.eu/activities/working-groups/lexical-resources/"
+              class="footer-logo footer-logo-dariah"
+              aria-label="Maintained in the DARIAH lexical resources context"
+            >
+              <img
+                src="images/dariah-lr-blue.png"
+                alt="DARIAH Lexical Resources"
+              />
+            </a>
+            <a
+              href="https://humanistika.org"
+              class="footer-logo footer-logo-bcdh"
+              aria-label="Hosted by BCDH"
+            >
+              <img
+                src="images/cdhn-logo.webp"
+                alt="Belgrade Center for Digital Humanities"
+              />
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-mobile">
+          <div class="footer-builtwith">
+            <div class="footer-builtwith-labels">
+              <div class="footer-builtwith-label">built with</div>
+              <div class="footer-builtwith-label">sourced on</div>
+            </div>
+
+            <div class="footer-builtwith-logos">
+              <div class="footer-builtwith-tei">
+                <a
+                  href="https://tei-c.org/"
+                  class="footer-logo footer-logo-tei"
+                  aria-label="Built with TEI"
+                >
+                  <img src="images/TEI_logo.png" alt="TEI" />
+                </a>
+              </div>
+
+              <div class="footer-builtwith-github">
+                <a
+                  href="https://github.com/BCDH/oxygen-tei-lex-0"
+                  class="footer-logo footer-logo-github"
+                  aria-label="Source code on GitHub"
+                >
+                  <img src="images/github.png" alt="GitHub" />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-main">
+            <div class="footer-main-labels">
+              <div class="footer-label">maintained by</div>
+              <div class="footer-label">built for</div>
+              <div class="footer-label">hosted by</div>
+            </div>
+
+            <div class="footer-main-logos">
+              <div class="footer-left">
+                <a
+                  href="https://www.dariah.eu/activities/working-groups/lexical-resources/"
+                  class="footer-logo footer-logo-dariah"
+                  aria-label="Maintained in the DARIAH lexical resources context"
+                >
+                  <img
+                    src="images/dariah-lr-blue.png"
+                    alt="DARIAH Lexical Resources"
+                  />
+                </a>
+              </div>
+
+              <div class="footer-center">
+                <a
+                  href="https://www.oxygenxml.com/xml_editor.html"
+                  class="footer-logo footer-logo-oxygen"
+                  aria-label="Built for oXygen XML Editor"
+                >
+                  <img src="images/oxygen.png" alt="oXygen XML Editor" />
+                </a>
+              </div>
+
+              <div class="footer-right">
+                <a
+                  href="https://humanistika.org"
+                  class="footer-logo footer-logo-bcdh"
+                  aria-label="Hosted by BCDH"
+                >
+                  <img
+                    src="images/cdhn-logo.webp"
+                    alt="Belgrade Center for Digital Humanities"
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-desktop">
+          <div class="footer-desktop-labels">
+            <div class="footer-desktop-label footer-label">maintained by</div>
+            <div class="footer-desktop-label footer-label">built with</div>
+            <div class="footer-desktop-label footer-label">built for</div>
+            <div class="footer-desktop-label footer-label">sourced on</div>
+            <div class="footer-desktop-label footer-label">hosted by</div>
+          </div>
+
+          <div class="footer-desktop-logos">
+            <div class="footer-desktop-logo footer-desktop-logo-dariah">
+              <a
+                href="https://www.dariah.eu/activities/working-groups/lexical-resources/"
+                class="footer-logo footer-logo-dariah"
+                aria-label="Maintained in the DARIAH lexical resources context"
+              >
+                <img
+                  src="images/dariah-lr-blue.png"
+                  alt="DARIAH Lexical Resources"
+                />
+              </a>
+            </div>
+
+            <div class="footer-desktop-logo footer-desktop-logo-tei">
+              <a
+                href="https://tei-c.org/"
+                class="footer-logo footer-logo-tei"
+                aria-label="Built with TEI"
+              >
+                <img src="images/TEI_logo.png" alt="TEI" />
+              </a>
+            </div>
+
+            <div class="footer-desktop-logo footer-desktop-logo-cc">
+              <a
+                href="https://www.oxygenxml.com/xml_editor.html"
+                class="footer-logo footer-logo-oxygen"
+                aria-label="Built for oXygen XML Editor"
+              >
+                <img src="images/oxygen.png" alt="oXygen XML Editor" />
+              </a>
+            </div>
+
+            <div class="footer-desktop-logo footer-desktop-logo-github">
+              <a
+                href="https://github.com/BCDH/oxygen-tei-lex-0"
+                class="footer-logo footer-logo-github"
+                aria-label="Source code on GitHub"
+              >
+                <img src="images/github.png" alt="GitHub" />
+              </a>
+            </div>
+
+            <div class="footer-desktop-logo footer-desktop-logo-bcdh">
+              <a
+                href="https://humanistika.org"
+                class="footer-logo footer-logo-bcdh"
+                aria-label="Hosted by BCDH"
+              >
+                <img
+                  src="images/cdhn-logo.webp"
+                  alt="Belgrade Center for Digital Humanities"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        var origin = window.location.origin || "https://dev.oxy.lex-0.org";
+        var descriptorUrl = origin + "/addon.xml";
+        var descriptor = document.getElementById("descriptor-url");
+        var copyButton = document.getElementById("copy-descriptor");
+        var status = document.getElementById("copy-status");
+        var currentVersion = document.getElementById("current-version");
+        var oxygenCompatibility = document.getElementById(
+          "oxygen-compatibility",
+        );
+        var latestPackageLink = document.getElementById("latest-package-link");
+        var latestPackagePath = document.getElementById("latest-package-path");
+        var versionedPackageLink = document.getElementById(
+          "versioned-package-link",
+        );
+        var versionedPackageLabel = document.getElementById(
+          "versioned-package-label",
+        );
+        var versionedPackagePath = document.getElementById(
+          "versioned-package-path",
+        );
+        var dragInstallButton = document.getElementById("drag-install-button");
+        var dragDialog = document.getElementById("drag-dialog");
+        var closeDragDialog = document.getElementById("close-drag-dialog");
+
+        descriptor.textContent = descriptorUrl;
+
+        function openDragDialog() {
+          dragDialog.hidden = false;
+          dragDialog.setAttribute("aria-hidden", "false");
+          closeDragDialog.focus();
+        }
+
+        function closeDialog() {
+          dragDialog.hidden = true;
+          dragDialog.setAttribute("aria-hidden", "true");
+          dragInstallButton.focus();
+        }
+
+        function getPrimaryExtension(root) {
+          var extensions = root.getElementsByTagNameNS("*", "extension");
+          return extensions.length ? extensions[0] : null;
+        }
+
+        function getFirstChildByLocalName(root, localName) {
+          var childNodes = root ? root.childNodes : [];
+
+          for (var i = 0; i < childNodes.length; i += 1) {
+            var node = childNodes[i];
+
+            if (node.nodeType === 1 && node.localName === localName) {
+              return node;
+            }
+          }
+
+          return null;
+        }
+
+        function getChildText(root, localName) {
+          var node = getFirstChildByLocalName(root, localName);
+          return node && node.textContent ? node.textContent.trim() : "";
+        }
+
+        function getChildAttribute(root, localName, attributeName) {
+          var node = getFirstChildByLocalName(root, localName);
+          return node ? node.getAttribute(attributeName) || "" : "";
+        }
+
+        async function syncVersionFromDescriptor() {
+          try {
+            var response = await fetch("addon.xml", { cache: "no-store" });
+
+            if (!response.ok) {
+              throw new Error("Failed to load descriptor");
+            }
+
+            var xmlText = await response.text();
+            var xml = new DOMParser().parseFromString(
+              xmlText,
+              "application/xml",
+            );
+            var parserError = xml.getElementsByTagName("parsererror")[0];
+
+            if (parserError) {
+              throw new Error("Descriptor XML could not be parsed");
+            }
+
+            var extension = getPrimaryExtension(xml);
+
+            if (!extension) {
+              throw new Error("Descriptor extension could not be found");
+            }
+
+            var version = getChildText(extension, "version");
+            var packageHref = getChildAttribute(extension, "location", "href");
+            var oxyVersion = getChildText(extension, "oxy_version");
+            var addonId = extension.getAttribute("id") || "";
+
+            if (version) {
+              currentVersion.textContent = version;
+            }
+
+            if (oxyVersion) {
+              oxygenCompatibility.textContent = oxyVersion;
+            }
+
+            if (version && packageHref) {
+              var normalizedHref = packageHref.replace(/^\.?\//, "");
+              var versionedHref = normalizedHref.replace(
+                /\.zip$/,
+                "-" + version + ".zip",
+              );
+
+              latestPackageLink.href = normalizedHref;
+              latestPackagePath.textContent = "/" + normalizedHref;
+              versionedPackageLink.href = versionedHref;
+              versionedPackageLabel.textContent =
+                "Versioned package " + version;
+              versionedPackagePath.textContent = "/" + versionedHref;
+            }
+
+            if (addonId) {
+              dragInstallButton.href = "addon.xml?oxygenAddonId=" + addonId;
+            }
+          } catch (error) {
+            currentVersion.textContent = "Unavailable";
+            oxygenCompatibility.textContent = "Unavailable";
+            latestPackageLink.removeAttribute("href");
+            latestPackagePath.textContent = "Unavailable";
+            versionedPackageLink.removeAttribute("href");
+            versionedPackageLabel.textContent = "Versioned package unavailable";
+            versionedPackagePath.textContent = "Unavailable";
+          }
+        }
+
+        copyButton.addEventListener("click", async function () {
+          try {
+            await navigator.clipboard.writeText(descriptorUrl);
+            status.textContent = "Descriptor URL copied.";
+          } catch (error) {
+            status.textContent =
+              "Copy failed. Select and copy the descriptor URL manually.";
+          }
+        });
+
+        dragInstallButton.addEventListener("click", function (event) {
+          event.preventDefault();
+          openDragDialog();
+        });
+
+        closeDragDialog.addEventListener("click", closeDialog);
+
+        dragDialog.addEventListener("click", function (event) {
+          if (event.target === dragDialog) {
+            closeDialog();
+          }
+        });
+
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape" && !dragDialog.hidden) {
+            closeDialog();
+          }
+        });
+
+        syncVersionFromDescriptor();
+      })();
+    </script>
+  </body>
+</html>
