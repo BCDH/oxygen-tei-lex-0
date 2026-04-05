@@ -42,7 +42,7 @@ GitHub Actions publishes the current installable package to GitHub Pages:
 
 - stable package: `https://oxy.lex-0.org/oxygen-tei-lex-0.zip`
 - versioned package: `https://oxy.lex-0.org/oxygen-tei-lex-0-<version>.zip`
-- staging package: `https://dev.oxy.lex-0.org/oxygen-tei-lex-0.zip`
+- staging package: `https://oxy-dev.lex-0.org/oxygen-tei-lex-0.zip`
 
 Historical package archives are published as GitHub Release assets in this repository.
 
@@ -57,7 +57,7 @@ Historical package archives are published as GitHub Release assets in this repos
 
 The canonical installation endpoint is `https://oxy.lex-0.org/addon.xml`.
 
-A persistent staging install endpoint is available at `https://dev.oxy.lex-0.org/addon.xml`. It is intended for testing the `dev` branch before production promotion and should not be treated as the public installation URL.
+A persistent staging install endpoint is available at `https://oxy-dev.lex-0.org/addon.xml`. It is intended for testing the `dev` branch before production promotion and should not be treated as the public installation URL.
 
 The current framework package and the deprecated legacy package are both referenced from that descriptor. Historical downloads are available from the repository releases page.
 
@@ -112,7 +112,7 @@ You can also change files in the following subdirectories:
 
 - pushes to `dev` and `main` run CI packaging validation
 - pushes to `main` rebuild and publish the production site at `oxy.lex-0.org`
-- pushes to `dev` rebuild and publish the staging site at `dev.oxy.lex-0.org`
+- pushes to `dev` rebuild and publish the staging site at `oxy-dev.lex-0.org`
 - pushes of `v*` tags publish the current versioned ZIP as a GitHub Release asset
 - historical `teilex0-oxygen-framework` releases can be recreated from git history with `scripts/publish-historical-releases.sh`
 

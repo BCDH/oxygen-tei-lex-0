@@ -2,14 +2,14 @@
 
 ## Summary
 
-Add a permanent staging environment for the `dev` branch at `dev.oxy.lex-0.org`, while keeping `main` as production at `oxy.lex-0.org`.
+Add a permanent staging environment for the `dev` branch at `oxy-dev.lex-0.org`, while keeping `main` as production at `oxy.lex-0.org`.
 
 The deployment architecture should use Cloudflare as the public fronting layer, with production served by GitHub Pages from this repository and staging served from a generated staging branch in this same repository. Staging is always available, clearly marked as non-production, and explicitly blocked from indexing.
 
 Target mapping:
 
 - `main` -> production origin -> `oxy.lex-0.org`
-- `dev` -> staging origin -> `dev.oxy.lex-0.org`
+- `dev` -> staging origin -> `oxy-dev.lex-0.org`
 
 ## Implementation Changes
 
@@ -22,7 +22,7 @@ Use two deployment outputs from this repository:
 
 Cloudflare responsibilities:
 
-- terminate TLS for both `oxy.lex-0.org` and `dev.oxy.lex-0.org`
+- terminate TLS for both `oxy.lex-0.org` and `oxy-dev.lex-0.org`
 - route each hostname to its corresponding origin
 - keep caches separated by hostname
 - add response headers for staging crawler control if possible
@@ -46,12 +46,12 @@ Staging:
 - trigger on pushes to `dev`
 - build package and stage site with the same packaging logic
 - publish to the staging branch in this repository
-- staging gets its own `addon.xml`, stable ZIP, and versioned ZIP under `dev.oxy.lex-0.org`
+- staging gets its own `addon.xml`, stable ZIP, and versioned ZIP under `oxy-dev.lex-0.org`
 
 Required behavior:
 
 - staging must mirror the real install flow, not just the landing page
-- testers should be able to install directly from `https://dev.oxy.lex-0.org/addon.xml`
+- testers should be able to install directly from `https://oxy-dev.lex-0.org/addon.xml`
 - production docs and UI must continue to point to `https://oxy.lex-0.org/addon.xml` as canonical
 
 ### 3. Staging-only behavior
@@ -111,7 +111,7 @@ Repo docs to update:
 Create these DNS/public routes:
 
 - `oxy.lex-0.org` -> production origin
-- `dev.oxy.lex-0.org` -> staging route in front of this repository's generated staging branch
+- `oxy-dev.lex-0.org` -> staging route in front of this repository's generated staging branch
 
 Cloudflare configuration:
 
@@ -121,13 +121,13 @@ Cloudflare configuration:
   - `/addon.xml`
   - stable ZIP URL if you want immediate update visibility
 - optional but recommended:
-  - response header transform for `X-Robots-Tag` on `dev.oxy.lex-0.org`
+  - response header transform for `X-Robots-Tag` on `oxy-dev.lex-0.org`
   - cache rules separating HTML from ZIP artifacts
 
 If using GitHub Pages as the underlying production origin:
 
 - keep `oxy.lex-0.org` mapped through the standard GitHub Pages deployment for this repository
-- route `dev.oxy.lex-0.org` through Cloudflare to content generated from the staging branch in this same repository
+- route `oxy-dev.lex-0.org` through Cloudflare to content generated from the staging branch in this same repository
 
 ## Public Interfaces / Environment Contracts
 
@@ -139,9 +139,9 @@ Public production endpoints:
 
 Public staging endpoints:
 
-- `https://dev.oxy.lex-0.org/`
-- `https://dev.oxy.lex-0.org/addon.xml`
-- `https://dev.oxy.lex-0.org/oxygen-tei-lex-0.zip`
+- `https://oxy-dev.lex-0.org/`
+- `https://oxy-dev.lex-0.org/addon.xml`
+- `https://oxy-dev.lex-0.org/oxygen-tei-lex-0.zip`
 
 Branch contract:
 
@@ -160,7 +160,7 @@ Search-engine contract for staging:
 ### Host routing
 
 - verify `oxy.lex-0.org` serves production origin only
-- verify `dev.oxy.lex-0.org` serves staging origin only
+- verify `oxy-dev.lex-0.org` serves staging origin only
 - verify the two hosts return different environment markers when `dev` and `main` differ
 
 ### Install flow
@@ -172,7 +172,7 @@ Search-engine contract for staging:
 ### Crawler controls
 
 - verify staging HTML contains `meta robots` noindex
-- verify `dev.oxy.lex-0.org/robots.txt` disallows all
+- verify `oxy-dev.lex-0.org/robots.txt` disallows all
 - verify `X-Robots-Tag` is present on staging responses if configured in Cloudflare
 - verify production does not inherit staging crawler restrictions
 
@@ -191,7 +191,7 @@ Search-engine contract for staging:
 ## Assumptions And Defaults
 
 - Staging should be permanent, not temporary.
-- Public staging hostname is `dev.oxy.lex-0.org`.
+- Public staging hostname is `oxy-dev.lex-0.org`.
 - Cloudflare is the fronting layer.
 - Production and staging are served from this repository.
 - Production uses the normal GitHub Pages deployment path, while staging is published to a generated branch and exposed separately through Cloudflare.

@@ -1,12 +1,12 @@
 # Cloudflare Staging Worker Setup
 
-This document describes how to expose the `staging-pages` branch of this repository at `https://dev.oxy.lex-0.org/` using a Cloudflare Worker.
+This document describes how to expose the `staging-pages` branch of this repository at `https://oxy-dev.lex-0.org/` using a Cloudflare Worker.
 
 ## Purpose
 
 - production remains available at `https://oxy.lex-0.org/`
 - `dev` pushes publish generated staging output to the `staging-pages` branch in this repository
-- a Cloudflare Worker serves files from that branch at `https://dev.oxy.lex-0.org/`
+- a Cloudflare Worker serves files from that branch at `https://oxy-dev.lex-0.org/`
 
 ## GitHub preparation
 
@@ -114,12 +114,12 @@ export default {
 5. open the Worker settings
 6. go to `Domains & Routes`
 7. add a `Custom Domain`
-8. enter `dev.oxy.lex-0.org`
+8. enter `oxy-dev.lex-0.org`
 9. let Cloudflare create and manage the DNS record for the Worker
 
 Important:
 
-- do not create a manual CNAME for `dev.oxy.lex-0.org` first
+- do not create a manual CNAME for `oxy-dev.lex-0.org` first
 - if one already exists, remove it before creating the Worker custom domain
 
 ## Behavior
@@ -138,10 +138,10 @@ The Worker:
 
 After a push to `dev`, verify:
 
-- `https://dev.oxy.lex-0.org/`
-- `https://dev.oxy.lex-0.org/addon.xml`
-- `https://dev.oxy.lex-0.org/robots.txt`
-- `https://dev.oxy.lex-0.org/oxygen-tei-lex-0.zip`
+- `https://oxy-dev.lex-0.org/`
+- `https://oxy-dev.lex-0.org/addon.xml`
+- `https://oxy-dev.lex-0.org/robots.txt`
+- `https://oxy-dev.lex-0.org/oxygen-tei-lex-0.zip`
 
 Expected results:
 

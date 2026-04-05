@@ -27,8 +27,8 @@ case "${mode}" in
     public_domain="oxy.lex-0.org"
     ;;
   dev)
-    public_host="https://dev.oxy.lex-0.org"
-    public_domain="dev.oxy.lex-0.org"
+    public_host="https://oxy-dev.lex-0.org"
+    public_domain="oxy-dev.lex-0.org"
     ;;
   *)
     echo "Unsupported site mode: ${mode}" >&2
