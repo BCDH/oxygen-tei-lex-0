@@ -1,0 +1,41 @@
+name: Deploy Staging Site
+
+on:
+  push:
+    branches:
+      - dev
+
+permissions:
+  contents: write
+
+concurrency:
+  group: staging-site
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install Ant
+        run: sudo apt-get update && sudo apt-get install --yes ant
+
+      - name: Prepare staging site
+        run: ./scripts/prepare-pages.sh dev site
+
+      - name: Publish staging origin
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          TARGET_BRANCH: ${{ vars.STAGING_PAGES_BRANCH }}
+        run: |
+          set -euo pipefail
+
+          ./scripts/deploy-pages.sh site "${TARGET_BRANCH:-staging-pages}"

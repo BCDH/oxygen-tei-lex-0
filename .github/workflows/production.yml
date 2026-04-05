@@ -1,4 +1,4 @@
-name: Deploy GitHub Pages
+name: Deploy Production Site
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: production-pages
   cancel-in-progress: true
 
 jobs:
@@ -36,8 +36,8 @@ jobs:
       - name: Build framework package
         run: ./scripts/build-package.sh
 
-      - name: Stage Pages site
-        run: ./scripts/stage-pages.sh site
+      - name: Prepare production site
+        run: ./scripts/prepare-pages.sh prod site
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5

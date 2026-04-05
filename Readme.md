@@ -42,6 +42,7 @@ GitHub Actions publishes the current installable package to GitHub Pages:
 
 - stable package: `https://oxy.lex-0.org/oxygen-tei-lex-0.zip`
 - versioned package: `https://oxy.lex-0.org/oxygen-tei-lex-0-<version>.zip`
+- staging package: `https://dev.oxy.lex-0.org/oxygen-tei-lex-0.zip`
 
 Historical package archives are published as GitHub Release assets in this repository.
 
@@ -49,12 +50,14 @@ Historical package archives are published as GitHub Release assets in this repos
 
 - `web/` contains the tracked source files for the website and add-on descriptor
 - `site/` is a generated staging directory used for GitHub Pages deployment
-- `scripts/stage-pages.sh` copies files from `web/` to `site/` and adds the current ZIP artifacts from `build/<schema-version>/`
+- `scripts/prepare-pages.sh` prepares the Pages site for either production or staging and adds the current ZIP artifacts from `build/<schema-version>/`
 - edit files in `web/`, not in `site/`
 
 ## Installation
 
 The canonical installation endpoint is `https://oxy.lex-0.org/addon.xml`.
+
+A persistent staging install endpoint is available at `https://dev.oxy.lex-0.org/addon.xml`. It is intended for testing the `dev` branch before production promotion and should not be treated as the public installation URL.
 
 The current framework package and the deprecated legacy package are both referenced from that descriptor. Historical downloads are available from the repository releases page.
 
@@ -108,6 +111,17 @@ You can also change files in the following subdirectories:
 ## Releases
 
 - pushes to `dev` and `main` run CI packaging validation
-- pushes to `main` rebuild the current site artifact for GitHub Pages
+- pushes to `main` rebuild and publish the production site at `oxy.lex-0.org`
+- pushes to `dev` rebuild and publish the staging site at `dev.oxy.lex-0.org`
 - pushes of `v*` tags publish the current versioned ZIP as a GitHub Release asset
 - historical `teilex0-oxygen-framework` releases can be recreated from git history with `scripts/publish-historical-releases.sh`
+
+Staging publication requires:
+
+- generated branch `staging-pages` in this repository, or a repository variable `STAGING_PAGES_BRANCH` if you want a different branch name
+- workflow permission to push to that generated branch with the default `GITHUB_TOKEN`
+
+## Workflow Docs
+
+- git workflow: [docs/git-workflow.md](docs/git-workflow.md)
+- release intake automation: [docs/lex-0-release-intake-automation-plan.md](docs/lex-0-release-intake-automation-plan.md)
