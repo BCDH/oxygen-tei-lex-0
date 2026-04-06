@@ -59,7 +59,7 @@ jobs:
         id: intake
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.OXYGEN_TEI_LEX0_INTAKE_TOKEN || github.token }}
         run: |
           set -euo pipefail
           ./scripts/intake-lex0-release.sh "${{ steps.payload.outputs.payload_path }}" true
