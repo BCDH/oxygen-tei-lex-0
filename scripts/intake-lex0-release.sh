@@ -22,9 +22,8 @@ tag=$(jq -r '.tag // empty' "${payload_file}")
 schema_version=$(jq -r '.schema_version // empty' "${payload_file}")
 release_url=$(jq -r '.release_url // empty' "${payload_file}")
 commit_sha=$(jq -r '.commit_sha // empty' "${payload_file}")
-rng_url=$(jq -r '.assets.rng_url // empty' "${payload_file}")
-rnc_url=$(jq -r '.assets.rnc_url // empty' "${payload_file}")
-xsd_url=$(jq -r '.assets.xsd_url // empty' "${payload_file}")
+schemas_zip_url=$(jq -r '.assets.schemas_zip_url // empty' "${payload_file}")
+schemas_tar_gz_url=$(jq -r '.assets.schemas_tar_gz_url // empty' "${payload_file}")
 
 if [ "${source_repo}" != "BCDH/tei-lex-0" ]; then
   echo "Unexpected source_repo: ${source_repo}" >&2
@@ -46,23 +45,18 @@ if ! semver_ge "${schema_version}" "0.9.5"; then
   exit 1
 fi
 
-if [ -z "${release_url}" ] || [ -z "${commit_sha}" ] || [ -z "${rng_url}" ]; then
-  echo "Payload is missing release_url, commit_sha, or assets.rng_url." >&2
+if [ -z "${release_url}" ] || [ -z "${commit_sha}" ] || { [ -z "${schemas_zip_url}" ] && [ -z "${schemas_tar_gz_url}" ]; }; then
+  echo "Payload is missing release_url, commit_sha, or schema archive URLs." >&2
   exit 1
 fi
 
-if ! validate_url_basename "${rng_url}" "lex-0.rng"; then
-  echo "Unsupported RNG asset basename: ${rng_url}" >&2
+if [ -n "${schemas_zip_url}" ] && ! validate_url_basename "${schemas_zip_url}" "schemas.zip"; then
+  echo "Unsupported schema zip asset basename: ${schemas_zip_url}" >&2
   exit 1
 fi
 
-if [ -n "${rnc_url}" ] && ! validate_url_basename "${rnc_url}" "lex-0.rnc"; then
-  echo "Unsupported RNC asset basename: ${rnc_url}" >&2
-  exit 1
-fi
-
-if [ -n "${xsd_url}" ] && ! validate_url_basename "${xsd_url}" "lex-0.xsd"; then
-  echo "Unsupported XSD asset basename: ${xsd_url}" >&2
+if [ -n "${schemas_tar_gz_url}" ] && ! validate_url_basename "${schemas_tar_gz_url}" "schemas.tar.gz"; then
+  echo "Unsupported schema tarball asset basename: ${schemas_tar_gz_url}" >&2
   exit 1
 fi
 
@@ -97,17 +91,23 @@ tmp_dir=$(mktemp -d)
 trap 'rm -rf "${tmp_dir}"' EXIT
 
 mkdir -p "${schema_dir}"
-curl -fsSL "${rng_url}" -o "${schema_dir}/lex-0.rng"
-if [ -n "${rnc_url}" ]; then
-  curl -fsSL "${rnc_url}" -o "${schema_dir}/lex-0.rnc"
-fi
-if [ -n "${xsd_url}" ]; then
-  curl -fsSL "${xsd_url}" -o "${schema_dir}/lex-0.xsd"
-fi
+archive_url="${schemas_zip_url:-${schemas_tar_gz_url}}"
+archive_name="$(basename "${archive_url}")"
+archive_path="${tmp_dir}/${archive_name}"
+extract_dir="${tmp_dir}/schema-archive"
+
+curl -fsSL "${archive_url}" -o "${archive_path}"
+extract_schema_archive "${archive_path}" "${extract_dir}"
+
+for extracted_file in lex-0.rng lex-0.rnc lex-0.xsd; do
+  if [ -s "${extract_dir}/${extracted_file}" ]; then
+    cp "${extract_dir}/${extracted_file}" "${schema_dir}/${extracted_file}"
+  fi
+done
 
 for required_file in "${schema_dir}/lex-0.rng"; do
   if [ ! -s "${required_file}" ]; then
-    echo "Downloaded file is missing or empty: ${required_file}" >&2
+    echo "Extracted file is missing or empty: ${required_file}" >&2
     exit 1
   fi
 done
@@ -154,9 +154,7 @@ if [ "${open_pr}" = "true" ]; then
     printf 'Framework version: `%s` -> `%s`\n' "${current_version}" "${next_version}"
     printf 'Schema version: `%s` -> `%s`\n\n' "${current_schema_version}" "${schema_version}"
     printf 'Imported assets:\n'
-    printf -- '- `%s`\n' "$(basename "${rng_url}")"
-    [ -n "${rnc_url}" ] && printf -- '- `%s`\n' "$(basename "${rnc_url}")"
-    [ -n "${xsd_url}" ] && printf -- '- `%s`\n' "$(basename "${xsd_url}")"
+    printf -- '- `%s`\n' "${archive_name}"
     if [ -n "${GITHUB_SERVER_URL:-}" ] && [ -n "${GITHUB_REPOSITORY:-}" ] && [ -n "${GITHUB_RUN_ID:-}" ]; then
       printf '\nAutomation run: %s/%s/actions/runs/%s\n' "${GITHUB_SERVER_URL}" "${GITHUB_REPOSITORY}" "${GITHUB_RUN_ID}"
     fi
@@ -165,6 +163,7 @@ if [ "${open_pr}" = "true" ]; then
   pr_url=$(gh pr create \
     --base dev \
     --head "${branch_name}" \
+    --assignee ttasovac \
     --title "chore: integrate TEI Lex-0 v${schema_version}" \
     --body-file "${pr_body_file}")
   printf 'pr_url=%s\n' "${pr_url}" >> "${GITHUB_OUTPUT:-/dev/null}"

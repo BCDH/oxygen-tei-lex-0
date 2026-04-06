@@ -21,6 +21,28 @@ validate_url_basename() {
   [ "$(basename "${url}")" = "${expected}" ]
 }
 
+extract_schema_archive() {
+  local archive_path output_dir
+  archive_path="$1"
+  output_dir="$2"
+
+  rm -rf "${output_dir}"
+  mkdir -p "${output_dir}"
+
+  case "${archive_path}" in
+    *.zip)
+      unzip -q "${archive_path}" -d "${output_dir}"
+      ;;
+    *.tar.gz)
+      tar -xzf "${archive_path}" -C "${output_dir}"
+      ;;
+    *)
+      echo "Unsupported schema archive: ${archive_path}" >&2
+      return 1
+      ;;
+  esac
+}
+
 framework_value() {
   local field
   field="$1"
