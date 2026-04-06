@@ -766,7 +766,7 @@
 											<Integer>6</Integer>
 										</field>
 										<field name="uri">
-											<String>${framework}/schemas/0.9.4/TEILex0.rng</String>
+											<String>${framework}/schemas/0.9.4/lex-0.rng</String>
 										</field>
 									</validationUnitSchema>
 								</field>
