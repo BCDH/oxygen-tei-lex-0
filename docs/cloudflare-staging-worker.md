@@ -66,6 +66,24 @@ async function fetchFromBranch(pathname) {
   });
 }
 
+function buildResponseHeaders(pathname, upstreamResp) {
+  const headers = new Headers();
+
+  headers.set("Content-Type", contentType(pathname));
+  headers.set("Cache-Control", cacheControl(pathname));
+  headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
+  headers.set("Access-Control-Allow-Origin", "*");
+  headers.set("X-Content-Type-Options", "nosniff");
+
+  const etag = upstreamResp.headers.get("etag");
+  const lastModified = upstreamResp.headers.get("last-modified");
+
+  if (etag) headers.set("ETag", etag);
+  if (lastModified) headers.set("Last-Modified", lastModified);
+
+  return headers;
+}
+
 export default {
   async fetch(request) {
     const url = new URL(request.url);
@@ -88,18 +106,15 @@ export default {
           "Content-Type": "text/plain; charset=utf-8",
           "X-Robots-Tag": "noindex, nofollow, noarchive",
           "Cache-Control": "no-store",
+          "Access-Control-Allow-Origin": "*",
+          "X-Content-Type-Options": "nosniff",
         },
       });
     }
 
-    const headers = new Headers(upstreamResp.headers);
-    headers.set("Content-Type", contentType(path));
-    headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
-    headers.set("Cache-Control", cacheControl(path));
-
     return new Response(upstreamResp.body, {
       status: upstreamResp.status,
-      headers,
+      headers: buildResponseHeaders(path, upstreamResp),
     });
   },
 };
@@ -130,6 +145,7 @@ The Worker:
 - maps `/` to `/index.html`
 - maps directory paths to `index.html`
 - sets correct content types for HTML, XML, images, and ZIP files
+- does not forward GitHub Raw response headers such as the restrictive CSP sandbox
 - adds `X-Robots-Tag: noindex, nofollow, noarchive`
 - disables caching for `addon.xml` and `robots.txt`
 - uses a short cache for ZIPs
