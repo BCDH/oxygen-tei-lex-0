@@ -46,6 +46,13 @@ GitHub Actions publishes the current installable package to GitHub Pages:
 
 Historical package archives are published as GitHub Release assets in this repository.
 
+Cross-repo release intake is also automated:
+
+- `BCDH/tei-lex-0` publishes `schemas.zip` and `schemas.tar.gz` as release assets
+- a release notification dispatch from `BCDH/tei-lex-0` triggers intake in this repository
+- this repository creates `automation/lex0-v<schema-version>` from `dev`
+- the intake workflow always opens a PR to `dev`
+
 ### Site layout
 
 - `web/` contains the tracked source files for the website and add-on descriptor
@@ -114,6 +121,7 @@ You can also change files in the following subdirectories:
 - pushes to `main` rebuild and publish the production site at `oxy.lex-0.org`
 - pushes to `dev` rebuild and publish the staging site at `oxy-dev.lex-0.org`
 - pushes of `v*` tags publish the current versioned ZIP as a GitHub Release asset
+- upstream `BCDH/tei-lex-0` releases can automatically open upgrade PRs here by importing `schemas.zip` or `schemas.tar.gz` into a new schema directory
 - historical `teilex0-oxygen-framework` releases can be recreated from git history with `scripts/publish-historical-releases.sh`
 
 Staging publication requires:
@@ -121,7 +129,11 @@ Staging publication requires:
 - generated branch `staging-pages` in this repository, or a repository variable `STAGING_PAGES_BRANCH` if you want a different branch name
 - workflow permission to push to that generated branch with the default `GITHUB_TOKEN`
 
+Release-intake automation requires:
+
+- repository secret `OXYGEN_TEI_LEX0_INTAKE_TOKEN` in `BCDH/oxygen-tei-lex-0`
+- repository secret `OXYGEN_TEI_LEX0_DISPATCH_TOKEN` in `BCDH/tei-lex-0`
+
 ## Workflow Docs
 
 - git workflow: [docs/git-workflow.md](docs/git-workflow.md)
-- release intake automation: [docs/lex-0-release-intake-automation-plan.md](docs/lex-0-release-intake-automation-plan.md)
