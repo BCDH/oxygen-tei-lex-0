@@ -1,0 +1,25 @@
+# Changelog
+
+This file records maintainer-facing release notes for the TEI Lex-0 oXygen
+Framework.
+
+Guidelines:
+
+- Keep entries short and concrete.
+- Record user-visible fixes, support changes, and important internal changes.
+- Use `web/addon.xml` for shorter end-user release notes shown inside oXygen.
+- Move items from `Unreleased` into a versioned section when a release is cut.
+
+## Unreleased
+
+### Fixed
+
+- Corrected the TEI Lex-0 `0.9.4` validation schema reference from `TEILex0.rng` to `lex-0.rng` in the bundled framework configuration as per [#6](https://github.com/BCDH/oxygen-tei-lex-0/issues/6).
+
+## 2.0.0
+
+### Changed
+
+- Replaced the legacy `teilex0-oxygen-framework` add-on with the
+  `oxygen-tei-lex-0` package and identifier.
+- Added support for TEI Lex-0 `0.9.4` and `0.9.5`.
