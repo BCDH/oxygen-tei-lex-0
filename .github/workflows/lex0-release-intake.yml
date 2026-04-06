@@ -1,0 +1,77 @@
+name: Intake TEI Lex-0 Release
+
+on:
+  repository_dispatch:
+    types:
+      - tei_lex_0_released
+  workflow_dispatch:
+    inputs:
+      payload_json:
+        description: JSON payload matching the repository_dispatch client_payload contract
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: lex0-release-intake
+  cancel-in-progress: false
+
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out dev branch
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          fetch-depth: 0
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install Ant
+        run: sudo apt-get update && sudo apt-get install --yes ant
+
+      - name: Prepare payload file
+        id: payload
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PAYLOAD_JSON: ${{ inputs.payload_json }}
+        run: |
+          set -euo pipefail
+
+          payload_path="${RUNNER_TEMP}/lex0-release-payload.json"
+          if [ "${EVENT_NAME}" = "repository_dispatch" ]; then
+            jq '.client_payload' "${GITHUB_EVENT_PATH}" > "${payload_path}"
+          else
+            printf '%s\n' "${PAYLOAD_JSON}" | jq . > "${payload_path}"
+          fi
+
+          printf 'payload_path=%s\n' "${payload_path}" >> "${GITHUB_OUTPUT}"
+
+      - name: Intake release
+        id: intake
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          ./scripts/intake-lex0-release.sh "${{ steps.payload.outputs.payload_path }}" true
+
+      - name: Summarize result
+        run: |
+          {
+            echo "## Intake Result"
+            echo
+            echo "- Branch: \`${{ steps.intake.outputs.branch_name }}\`"
+            echo "- Schema version: \`${{ steps.intake.outputs.schema_version }}\`"
+            if [ -n "${{ steps.intake.outputs.pr_url }}" ]; then
+              echo "- PR: ${{ steps.intake.outputs.pr_url }}"
+            fi
+          } >> "${GITHUB_STEP_SUMMARY}"

@@ -15,6 +15,31 @@ The downstream automation will:
 
 If the upstream release falls outside the current compatibility model, automation stops without creating an integration branch.
 
+This automation is intentionally narrow. It should support only the current post-`0.9.4` schema layout already used by this repository. Older schema layouts and future structural changes remain manual.
+
+## Runtime Flow
+
+The runtime sequence of the finished system is:
+
+1. `BCDH/tei-lex-0` publishes a release and its schema assets.
+2. `BCDH/tei-lex-0` emits `repository_dispatch` with the agreed payload.
+3. `BCDH/oxygen-tei-lex-0` validates the payload and release assets.
+4. `BCDH/oxygen-tei-lex-0` prepares and pushes an integration branch from `dev`.
+5. maintainers review or merge that branch into `dev` according to the repository workflow.
+6. promotion from `dev` to `main` remains a separate manual fast-forward step.
+
+## Implementation Sequence
+
+The recommended implementation order is different from the runtime flow:
+
+1. implement the downstream receiver in `BCDH/oxygen-tei-lex-0` first
+2. make the downstream workflow testable with a simulated `repository_dispatch` payload
+3. implement the upstream sender in `BCDH/tei-lex-0` second
+4. run an end-to-end test from upstream to downstream
+5. enable the upstream dispatch step in the real release workflow
+
+This order reduces risk because the downstream side contains most of the validation, file-mapping, and branch-preparation logic. Once the receiver contract is stable, the upstream sender is comparatively small.
+
 ## Implementation Changes
 
 ### 1. Upstream release announcement in `BCDH/tei-lex-0`
@@ -33,8 +58,8 @@ Dispatch contract:
   - `release_url`
   - `commit_sha`
   - `assets`: URLs for the published schema files the downstream repo needs
-  - required: RNG
-  - optional but preferred: RNC and XSD
+  - required: `rng_url`
+  - optional but preferred: `rnc_url` and `xsd_url`
   - `published_at`
 
 Upstream validation before dispatch:
@@ -42,6 +67,12 @@ Upstream validation before dispatch:
 - release/tag is annotated and published successfully
 - required release assets exist
 - dispatch is sent only once per successful release run
+
+Required upstream release asset contract:
+
+- asset basenames must be `lex-0.rng`, optional `lex-0.rnc`, and optional `lex-0.xsd`
+- the downstream automation should treat any other required-name pattern as unsupported and fail early
+- `catalog.xml` is not expected from upstream and remains locally generated/copied by downstream automation
 
 ### 2. Downstream intake workflow in `BCDH/oxygen-tei-lex-0`
 
@@ -69,6 +100,22 @@ Workflow behavior:
 - push the branch for integration into `dev`
 - optionally open a PR to `dev`, but do not require PR-only workflow assumptions
 
+Exact downstream file mapping for supported versions:
+
+- create `src/schemas/<schema_version>/`
+- write upstream `lex-0.rng` to `src/schemas/<schema_version>/lex-0.rng`
+- if present, write upstream `lex-0.rnc` to `src/schemas/<schema_version>/lex-0.rnc`
+- if present, write upstream `lex-0.xsd` to `src/schemas/<schema_version>/lex-0.xsd`
+- create `src/schemas/<schema_version>/catalog.xml` from the current `0.9.5` catalog template, changing only the schema-version path references needed for the new directory
+- do not attempt to backfill legacy filenames such as `TEILex0.rng`
+
+Exact duplicate-detection rule:
+
+- the authoritative automation branch name is `automation/lex0-v<schema_version>`
+- if that remote branch already exists, the workflow must stop
+- if a PR exists whose head branch is `automation/lex0-v<schema_version>`, the workflow must stop
+- if `framework.xml` already has `<schema><version>` equal to `<schema_version>`, the workflow must stop
+
 If a PR is created, its content should be:
 
 - title: `chore: integrate TEI Lex-0 v0.9.6`
@@ -92,7 +139,9 @@ Treat the current framework as compatible only with the existing known template/
 
 Automation may proceed only when all of these hold:
 
-- upstream schema version fits the current line that can reuse the existing `0.9.4+` template/description band
+- upstream schema version is greater than or equal to `0.9.5`
+- upstream release assets use the current `lex-0.*` naming pattern already present in `src/schemas/0.9.5/`
+- the existing `0.9.5` catalog template can be reused by changing version-directory references only
 - required upstream asset names or mappings are recognized
 - the downstream build metadata generation completes cleanly
 
@@ -104,6 +153,12 @@ Automation must fail without creating integration work when:
 - `ant` build fails
 
 Failure output should be explicit and actionable, with the reason surfaced in the workflow summary.
+
+Explicit non-goals for the first implementation:
+
+- no automation for `0.9.0` to `0.9.4` style schema layouts
+- no automation for releases that require new templates, descriptions, or framework-association rules
+- no automation for rewriting historical support entries beyond appending the new supported release
 
 ### 4. Supporting scripts and repo conventions
 
@@ -120,7 +175,29 @@ Recommended script responsibilities:
 - emit a PR summary payload
 - emit branch metadata and, if used, PR summary payload
 
+Recommended script split:
+
+- `scripts/intake-lex0-release.sh`: main orchestration entrypoint for a validated dispatch payload
+- `scripts/lib/lex0-release.sh`: shared functions for version parsing, duplicate detection, and asset validation
+- `scripts/lib/lex0-addon.sh`: controlled updates to `web/addon.xml`
+
 Keep all repo-tracked edits in source files only; do not edit packaged zip artifacts directly.
+
+Allowed automated edits:
+
+- `framework.xml`
+- `src/schemas/<schema_version>/lex-0.rng`
+- `src/schemas/<schema_version>/lex-0.rnc`
+- `src/schemas/<schema_version>/lex-0.xsd`
+- `src/schemas/<schema_version>/catalog.xml`
+- `web/addon.xml`
+
+Disallowed automated edits in the first implementation:
+
+- templates under `src/templates/`
+- description content under `src/_descriptions/`
+- historical schema directories
+- deprecated legacy add-on entry in `web/addon.xml`
 
 ## Public Interfaces / Contracts
 
@@ -144,6 +221,14 @@ Preferred fields:
 - `assets.xsd_url`
 - `published_at`
 
+Payload validation rules:
+
+- `tag` must equal `v<schema_version>`
+- `schema_version` must match `^[0-9]+\\.[0-9]+\\.[0-9]+$`
+- `assets.rng_url` basename must be `lex-0.rng`
+- if present, `assets.rnc_url` basename must be `lex-0.rnc`
+- if present, `assets.xsd_url` basename must be `lex-0.xsd`
+
 ### Versioning policy
 
 When upstream publishes a new Lex-0 release:
@@ -156,14 +241,31 @@ Example:
 - current `2.0.0` + upstream `0.9.6` release
 - next downstream version becomes `2.1.0`
 
+### `web/addon.xml` update policy
+
+Automation may update only these parts of `web/addon.xml`:
+
+- `<xt:version>` for the `oxygen-tei-lex-0` extension
+- the visible add-on version text inside the main extension description
+- the supported-version list under the main extension description by prepending the new schema version entry
+- the history block for the current framework version by inserting a short generated note that support for the new schema version was added
+
+Automation must not modify:
+
+- the deprecated `teilex0-oxygen-framework` extension block
+- license text
+- unrelated historical entries for older framework releases
+
 ## Test Plan
 
 ### Happy path
 
 - simulate a dispatch for a new `0.9.x` release with valid published assets
 - verify schema files land in `src/schemas/<version>/`
+- verify the new schema directory contains the expected `lex-0.*` filenames and generated `catalog.xml`
 - verify `framework.xml` schema version updates correctly
 - verify framework version minor bump/reset is correct
+- verify `web/addon.xml` only changes in the allowed sections
 - verify `ant` succeeds
 - verify an integration branch from `dev` is created with the expected commit content
 - if PR mode is enabled, verify a PR to `dev` is created with the expected title/body
@@ -177,6 +279,7 @@ Example:
 
 - missing RNG asset
 - malformed tag/version payload
+- wrong asset basename such as `TEILex0.rng`
 - mismatched sender repo
 - pre-existing schema directory
 - pre-existing open PR or pushed automation branch for the same schema version
@@ -201,3 +304,4 @@ Example:
 - Compatibility breaks require manual follow-up and block automated integration branch creation.
 - The existing downstream Ant/XSLT metadata path remains authoritative for updating framework references.
 - Required secrets/tokens can be added in both repositories with least-privilege scopes.
+- The first implementation targets only releases that look like the current `0.9.5` schema layout and metadata expectations.
