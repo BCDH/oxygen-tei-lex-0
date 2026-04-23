@@ -5,7 +5,7 @@
  <!-- major version is changed with new schema name, addon ID, or URLs -->
  <!-- minor version is changed with new schema version -->
  <!-- patch version is changed with new features of the framework -->
- <version>2.0.0</version>
+ <version>2.0.1</version>
  <schema base-url="https://github.com/BCDH/tei-lex-0" tags-path="releases/tag">
   <version>0.9.5</version>
  </schema>

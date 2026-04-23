@@ -4,7 +4,7 @@
      xsi:schemaLocation="http://www.oxygenxml.com/ns/extension http://www.oxygenxml.com/ns/extension/extensions.xsd">
      <xt:extension id="oxygen-tei-lex-0">
           <xt:location href="oxygen-tei-lex-0.zip" />
-          <xt:version>2.0.0</xt:version>
+          <xt:version>2.0.1</xt:version>
           <xt:oxy_version>17.0+</xt:oxy_version>
           <xt:type>framework</xt:type>
           <xt:author>Boris Lehečka</xt:author>
@@ -15,7 +15,7 @@
                          <title>TEI Lex-0 Framework</title>
                     </head>
                     <body>
-                         <h3>TEI Lex-0 Framework, version <span id="addon-version">2.0.0</span></h3>
+                         <h3>TEI Lex-0 Framework, version <span id="addon-version">2.0.1</span></h3>
                          <p>Framework for eiditing, transforming and analyzing dictionaries in <a href="https://lex-0.org">TEI Lex-0</a> format in oXygen XML Editor.</p>
                          <p>Supported versions of TEI Lex-0:</p>
                          <ul id="versions">
@@ -42,6 +42,11 @@
                               <li>Schematron QuickFixes</li>
                          </ul>
                          <h3 id="history">History</h3>
+                         <h4>2.0.1</h4>
+                         <ul>
+                              <li>Corrected the TEI Lex-0 0.9.4 validation schema reference.</li>
+                              <li>Removed legacy TEI Lex-0 0.9.0 dictionary templates.</li>
+                         </ul>
                          <h4>2.0.0</h4>
                          <p>This version of <strong>TEI Lex-0 Framework</strong> replaces the legacy <code>teilex0-oxygen-framework</code> add-on. The internal identifier has changed to <code>oxygen-tei-lex-0</code>, so older installations should be uninstalled manually before installing this package.</p>
                          <p>Support for following schemas was added:</p>

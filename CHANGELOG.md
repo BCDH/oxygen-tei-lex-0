@@ -12,9 +12,16 @@ Guidelines:
 
 ## Unreleased
 
+## 2.0.1 - 2026-04-23
+
 ### Fixed
 
 - Corrected the TEI Lex-0 `0.9.4` validation schema reference from `TEILex0.rng` to `lex-0.rng` in the bundled framework configuration as per [#6](https://github.com/BCDH/oxygen-tei-lex-0/issues/6).
+
+### Changed
+
+- Removed legacy TEI Lex-0 `0.9.0` dictionary templates as per [#5](https://github.com/BCDH/oxygen-tei-lex-0/issues/5).
+- Documented the Cloudflare Worker setup for the staging site.
 
 ## 2.0.0
 
